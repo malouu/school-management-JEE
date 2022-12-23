@@ -257,6 +257,7 @@
                 actionListener="#{studentMB.saveStudent}"
                 update="manage-student-content"
                 process="manage-student-content @this"
+                oncomplete="PF('manageStudentDialog').hide()"
               />
               <p:commandButton
                 value="Cancel"
@@ -282,7 +283,6 @@
               actionListener="#{studentMB.deleteStudent}"
               process="@this"
               update=":form:delete-students-button"
-              oncomplete="PF('deleteStudentDialog').hide()"
             />
             <p:commandButton
               value="No"

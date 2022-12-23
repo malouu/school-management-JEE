@@ -5,6 +5,8 @@ import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.primefaces.PrimeFaces;
 
@@ -13,6 +15,7 @@ import com.pi.dao.StudentDao;
 import com.pi.entities.Student;
 
 @ManagedBean(name = "studentMB")
+@Named(value = "studentMB")
 @ViewScoped
 
 public class StudentMB {
@@ -20,6 +23,8 @@ public class StudentMB {
     private Student selectedStudent = new Student();
     private List<Student> students;
     private List<Student> selectedStudents;
+
+    @Inject
     StudentDao studentDao = new StudentDao();
 
     public String add() {
@@ -126,9 +131,9 @@ public class StudentMB {
         }
 
         PrimeFaces.current().executeScript("PF('manageStudentDialog').hide()");
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-students");
-    }
-
+        PrimeFaces.current().ajax().update("form:messages", ":dt-students");
+        System.out.println(this.selectedStudent.toString() + " Saved");
+    } 
     public void deleteStudent() {
         studentDao.delete(this.selectedStudent);
         this.selectedStudent = null;
