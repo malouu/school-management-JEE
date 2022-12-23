@@ -4,51 +4,51 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import com.pi.entities.Group;
+import com.pi.entities.StudentsGroup;
 import com.pi.entities.Student;
 import com.pi.utils.JPAutil;
 
 public class GroupDao {
 	private EntityManager entityManager = JPAutil.getEntityManager("SchoolManagement");
 
-	public void add(Group group) {
+	public void add(StudentsGroup studentsGroup) {
 		entityManager.getTransaction().begin();
-		entityManager.persist(group);
+		entityManager.persist(studentsGroup);
 		entityManager.getTransaction().commit();
 	}
 
-	public void update(Group group) {
+	public void update(StudentsGroup studentsGroup) {
 		entityManager.getTransaction().begin();
-		entityManager.merge(group);
+		entityManager.merge(studentsGroup);
 		entityManager.getTransaction().commit();
 	}
 
-	public void delete(Group group) {
+	public void delete(StudentsGroup studentsGroup) {
 		entityManager.getTransaction().begin();
-		group = entityManager.merge(group);
-		entityManager.remove(group);
+		studentsGroup = entityManager.merge(studentsGroup);
+		entityManager.remove(studentsGroup);
 		entityManager.getTransaction().commit();
 	}
 
-	public Group getGroupById(int id) {
-		return entityManager.find(Group.class, id);
+	public StudentsGroup getGroupById(int id) {
+		return entityManager.find(StudentsGroup.class, id);
 	}
 
 	// get all groups
-	public List<Group> getAllGroups() {
-		return entityManager.createQuery("select g from Group g").getResultList();
+	public List<StudentsGroup> getAllGroups() {
+		return entityManager.createQuery("select g from StudentsGroup g").getResultList();
 	}
 
 	// get group by name
-	public Group getGroupByName(String name) {
-		return (Group) entityManager.createQuery("select g from Group g where g.name = :name")
+	public StudentsGroup getGroupByName(String name) {
+		return (StudentsGroup) entityManager.createQuery("select g from StudentsGroup g where g.name = :name")
 				.setParameter("name", name)
 				.getSingleResult();
 	}
 
 	// get groups by level
-	public List<Group> getGroupsByLevel(String level) {
-		return entityManager.createQuery("select g from Group g where g.level = :level")
+	public List<StudentsGroup> getGroupsByLevel(String level) {
+		return entityManager.createQuery("select g from StudentsGroup g where g.level = :level")
 				.setParameter("level", level)
 				.getResultList();
 	}

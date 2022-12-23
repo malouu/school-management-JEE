@@ -1,5 +1,6 @@
 package com.pi.managedBeans;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -18,7 +19,7 @@ import com.pi.entities.Student;
 @Named(value = "studentMB")
 @ViewScoped
 
-public class StudentMB {
+public class StudentMB implements Serializable {
     private Student student = new Student();
     private Student selectedStudent = new Student();
     private List<Student> students;
@@ -131,9 +132,13 @@ public class StudentMB {
         }
 
         PrimeFaces.current().executeScript("PF('manageStudentDialog').hide()");
-        PrimeFaces.current().ajax().update("form:messages", ":dt-students");
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-students");
+        
+        
         System.out.println(this.selectedStudent.toString() + " Saved");
-    } 
+        System.out.println(PrimeFaces.current().toString());
+    }
+
     public void deleteStudent() {
         studentDao.delete(this.selectedStudent);
         this.selectedStudent = null;
@@ -141,6 +146,7 @@ public class StudentMB {
         PrimeFaces.current().executeScript("PF('manageStudentDialog').hide()");
         PrimeFaces.current().ajax().update("form:messages", "form:dt-students");
     }
+
     public boolean hasnotSelectedStudents() {
         return !hasSelectedStudents();
     }

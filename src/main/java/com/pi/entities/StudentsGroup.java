@@ -8,7 +8,7 @@ import javax.persistence.Id;
 
 @Entity
 
-public class Group implements Serializable {
+public class StudentsGroup implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -64,7 +64,7 @@ public class Group implements Serializable {
 		}
 		if (getClass() != obj.getClass())
 			return false;
-		Group other = (Group) obj;
+		StudentsGroup other = (StudentsGroup) obj;
 		if (id != other.id)
 			return false;
 		if (level == null) {

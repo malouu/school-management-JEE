@@ -2,11 +2,18 @@ package com.pi.dao;
 
 import java.util.List;
 
+import javax.faces.bean.ApplicationScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
+
+
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import com.pi.entities.Student;
 import com.pi.utils.JPAutil;
-
+@Named
+@ApplicationScoped
 public class StudentDao {
 	private EntityManager entityManager = JPAutil.getEntityManager("SchoolManagement");
 

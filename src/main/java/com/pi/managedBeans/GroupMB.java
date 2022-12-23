@@ -8,19 +8,19 @@ import javax.faces.bean.ViewScoped;
 
 import com.pi.dao.GroupDao;
 import com.pi.dao.StudentDao;
-import com.pi.entities.Group;
+import com.pi.entities.StudentsGroup;
 
 @ManagedBean(name = "groupMB")
 @ViewScoped
 
 public class GroupMB {
-    private Group group = new Group();
-    private Group selectedGroup = new Group();
-    private List<Group> groups;
+    private StudentsGroup studentsGroup = new StudentsGroup();
+    private StudentsGroup selectedGroup = new StudentsGroup();
+    private List<StudentsGroup> studentsGroups;
     GroupDao groupDao = new GroupDao();
 
     public String add() {
-        groupDao.add(group);
+        groupDao.add(studentsGroup);
         return "groups.xhtml?faces-redirect=true";
     }
 
@@ -35,37 +35,37 @@ public class GroupMB {
     }
 
     public void initDataTable() {
-        groups = groupDao.getAllGroups();
+        studentsGroups = groupDao.getAllGroups();
     }
 
     public void initForm() {
         String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("id");
 
-        Group group = new Group();
-        group = groupDao.getGroupById(Integer.parseInt(id));
-        if (group != null) {
-            this.selectedGroup = group;
+        StudentsGroup studentsGroup = new StudentsGroup();
+        studentsGroup = groupDao.getGroupById(Integer.parseInt(id));
+        if (studentsGroup != null) {
+            this.selectedGroup = studentsGroup;
         }
     }
 
-    public Group getGroup() {
-        return group;
+    public StudentsGroup getGroup() {
+        return studentsGroup;
     }
 
-    public void setGroup(Group group) {
-        this.group = group;
+    public void setGroup(StudentsGroup studentsGroup) {
+        this.studentsGroup = studentsGroup;
     }
 
-    public Group getSelectedGroup() {
+    public StudentsGroup getSelectedGroup() {
         return selectedGroup;
     }
 
-    public void setSelectedGroup(Group selectedGroup) {
+    public void setSelectedGroup(StudentsGroup selectedGroup) {
         this.selectedGroup = selectedGroup;
     }
 
-    public List<Group> getGroups() {
-        return groups;
+    public List<StudentsGroup> getGroups() {
+        return studentsGroups;
     }
 
 }
