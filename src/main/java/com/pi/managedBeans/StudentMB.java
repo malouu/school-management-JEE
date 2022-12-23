@@ -89,6 +89,10 @@ public class StudentMB {
         this.student = new Student();
     }
 
+    public boolean hasSelectedStudent() {
+        return this.selectedStudent != null;
+    }
+
     public boolean hasSelectedStudents() {
         return this.selectedStudents != null && !this.selectedStudents.isEmpty();
     }
