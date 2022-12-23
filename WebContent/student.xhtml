@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:p="http://primefaces.org/ui"
+>
+  <f:metadata>
+    <f:viewAction action="#{studentMB.initDataTable}" />
+  </f:metadata>
+
+  <h:body>
+    <h3>Students</h3>
+    <h:form>
+      <h:panelGrid columns="2" cellpadding="10">
+        <h:outputLabel for="name" value="Name :" />
+        <h:inputText id="name" value="#{studentMB.student.name}"></h:inputText>
+        
+        
+        
+        <h:outputLabel for="surname" value="Surname :" />
+        <h:inputText
+          id="surname"
+          value="#{studentMB.student.surname}"
+        ></h:inputText>
+
+        <h:outputLabel for="email" value="Email :" />
+        <h:inputText
+          id="email"
+          value="#{studentMB.student.email}"
+        ></h:inputText>
+        
+        
+        <h:outputLabel for="phone" value="Phone number :" />
+        <h:inputText
+          id="phone"
+          value="#{studentMB.student.phone_number}"
+        ></h:inputText>
+        
+        
+        <h:commandButton
+          value="Add Student"
+          action="#{studentMB.add}"
+        ></h:commandButton>
+      </h:panelGrid>
+    </h:form>
+
+    <h1>Students List</h1>
+
+    <h:dataTable value="#{studentMB.students}" var="student">
+      <h:column>
+        <!-- column header -->
+        <f:facet name="header">Subscription Number</f:facet>
+        <!-- row record -->
+        <h:outputText value="#{student.subscription_number}" />
+      </h:column>
+
+      <h:column>
+        <f:facet name="header">Name</f:facet>
+        <h:outputText value="#{student.name}" />
+      </h:column>
+      
+       <h:column>
+        <f:facet name="header">Surname</f:facet>
+        <h:outputText value="#{student.surname}" />
+      </h:column>
+
+      <h:column>
+        <f:facet name="header">Email</f:facet>
+        <h:outputText value="#{student.email}" />
+      </h:column>
+      <h:column>
+        <f:facet name="header">Phone number</f:facet>
+        <h:outputText value="#{student.phone_number}" />
+      </h:column>
+
+      <h:column headerText="Actions" style="text-align: center">
+        <h:button value="update" outcome="update">
+          <f:param name="code" value="#{student.subscription_number}"/>
+        </h:button>
+      </h:column>
+
+      <h:column headerText="Actions" style="text-align: center">
+        <h:button value="delete" outcome="delete">
+          <f:param name="code" value="#{student.subscription_number}" />
+        </h:button>
+      </h:column>
+    </h:dataTable>
+  </h:body>
+</html>

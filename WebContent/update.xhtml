@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+  <f:metadata>
+	<f:viewAction action="#{studentMB.initForm}" />
+</f:metadata>    
+
+
+<h:body>
+	<h3>Update Student</h3>
+	
+	<h:form>
+	<h:panelGrid columns="2" cellpadding="5">
+	 <h:outputLabel for="SubscrpNumber" value="Subscription Number :" />
+		<h:inputText id="SubscrpNumber" value="#{studentMB.selectedStudent.subscription_number}"></h:inputText>
+	
+	    <h:outputLabel for="name" value="Name :" />
+        <h:inputText id="name" value="#{studentMB.selectedStudent.name}"></h:inputText>
+        
+        
+        
+        <h:outputLabel for="surname" value="Surname :" />
+        <h:inputText
+          id="surname"
+          value="#{studentMB.selectedStudent.surname}"
+        ></h:inputText>
+
+        <h:outputLabel for="email" value="Email :" />
+        <h:inputText
+          id="email"
+          value="#{studentMB.selectedStudent.email}"
+        ></h:inputText>
+        
+        
+        <h:outputLabel for="phone" value="Phone number :" />
+        <h:inputText
+          id="phone"
+          value="#{studentMB.selectedStudent.phone_number}"
+        ></h:inputText>
+        
+        <h:commandButton value="Update" action="#{studentMB.update}"></h:commandButton>
+	    <h:button value="Cancel" outcome="student" > </h:button>
+	</h:panelGrid>
+	</h:form>
+   
+</h:body>
+
+
+</html>

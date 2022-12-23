@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+	<persistence-unit name="SchoolManagement" transaction-type="RESOURCE_LOCAL">
+		<class>com.pi.entities.Department</class>
+		<class>com.pi.entities.Group</class>
+		<class>com.pi.entities.Student</class>
+		
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/school"/>
+			<property name="javax.persistence.jdbc.user" value="root"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+			<property name="eclipselink.logging.level" value="FINE"/>
+			<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+		</properties>
+	</persistence-unit>
+</persistence>

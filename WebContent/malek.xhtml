@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"      
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+      
+<f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
+  <f:metadata>
+    <f:viewAction action="#{studentMB.initDataTable}" />
+  </f:metadata>
+        <h:head>
+
+        </h:head>
+        <h:body>
+          
+            <h:form> 
+    
+    <p:menubar style="background-color:tomato;">
+        
+        <f:facet name="options">
+                <p:button styleClass=" ui-button-flat"  style="color: white;" value="Groups"/>
+                 <p:button styleClass=" ui-button-flat" style="color: white;"  value="Teachers"/>
+                  <p:button styleClass=" ui-button-flat"  style="color: white;" value="Settings" icon="pi pi-fw pi-cog" />
+                <p:button styleClass="ui-button-flat" style="color: white;"  value="Logout" icon="pi pi-fw pi-sign-out" />
+            </f:facet>
+ 
+       
+    </p:menubar>
+   <br/>
+</h:form >
+ <div style="background-color:rgb(248, 249, 250);">
+<br/>
+
+<div class="formgroup-inline" style="display:flex; flex-direction:column ;justify-content:flex-start">
+<h3 style="margin-left:40px;">Add Student:</h3>
+    <div style="display:flex;flex-direction:row; gap: 10px;justify-content:center">
+    <div class="field" style="display:flex; flex-direction:column;">
+        <p:outputLabel style="margin-bottom: 10px;" value="Name" />
+        <p:inputText id="firstname5" placeholder="Name" />
+    </div>
+    <br/>
+    <div class="field" style="display:flex; flex-direction:column;">
+        <p:outputLabel style="margin-bottom: 10px;" value="Surname" />
+        <p:inputText id="lastname5" placeholder="Surname" />
+    </div>
+    <div class="field" style="display:flex; flex-direction:column;">
+        <p:outputLabel style="margin-bottom: 10px;" value="Email" />
+        <p:inputText id="email" placeholder="Email" />
+    </div>
+    <br/>
+    <div class="field" style="display:flex; flex-direction:column;">
+        <p:outputLabel style="margin-bottom: 10px;" value="Phone Number" />
+        <p:inputText id="Phone-Number" placeholder="Phone Number" />
+    </div>
+   
+    
+    </div>
+    
+    <br/>
+     <div class="field" style="display:flex;justify-content:center">
+       <p:button styleClass="ui-button-success" style="display:flex;" value="Submit" />
+    </div>
+   
+</div>
+</div>
+<br/>
+<h3 style="margin-left:40px;">Students List:</h3>
+<h:form style="margin-left:30px;">
+    <div class="card" style="margin:50px;">
+        <p:dataTable var="student" value="#{studentMB.students}">
+            <p:column headerText="Subscription Number">
+                <h:outputText value="#{student.subscription_number}" />
+            </p:column>
+
+            <p:column headerText="Name">
+                <h:outputText value="#{student.name}" />
+            </p:column>
+
+            <p:column headerText="Surname">
+                <h:outputText value="#{student.surname}" />
+            </p:column>
+
+            <p:column headerText="Email">
+                <h:outputText value="#{student.email}" />
+            </p:column>
+            <p:column headerText="Phone Number">
+                <h:outputText value="#{student.phone_number}" />
+            </p:column>
+           
+             <p:column exportable="false" cellspacing="2">
+                <p:commandButton icon="pi pi-pencil" update=""
+                    oncomplete="PF('manageProductDialog').show()"
+                    styleClass="edit-button rounded-button ui-button-success" process="@this">
+                    <f:setPropertyActionListener value="#{product}" target="#{crudView.selectedProduct}" />
+                    <p:resetInput target="" />
+                </p:commandButton>
+                <p:commandButton class="ui-button-warning rounded-button" icon="pi pi-trash"
+                                 process="@this"
+                                 oncomplete="PF('deleteProductDialog').show()">
+                    <f:setPropertyActionListener value="#{product}" target="#{crudView.selectedProduct}" />
+                </p:commandButton>
+            </p:column>
+        </p:dataTable>
+    </div>
+</h:form>
+
+
+        </h:body>
+    </f:view>
+
+
+
+
+</html>
