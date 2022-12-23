@@ -90,7 +90,7 @@ public class StudentMB {
     }
 
     public boolean hasSelectedStudents() {
-        return selectedStudents != null && !selectedStudents.isEmpty();
+        return this.selectedStudents != null && !this.selectedStudents.isEmpty();
     }
 
     public String getDeleteButtonMessage() {
@@ -131,5 +131,8 @@ public class StudentMB {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Student Removed"));
         PrimeFaces.current().executeScript("PF('manageStudentDialog').hide()");
         PrimeFaces.current().ajax().update("form:messages", "form:dt-students");
+    }
+    public boolean hasnotSelectedStudents() {
+        return !hasSelectedStudents();
     }
 }

@@ -42,8 +42,6 @@
         <br />
       </h:form>
 
-      <!-- Products -->
-      <!-- TODO: Change dialogs product to student -->
       <div class="card crud-demo">
         <h:form id="form">
           <p:growl id="messages" showDetail="true" />
@@ -67,7 +65,7 @@
                 icon="pi pi-trash"
                 actionListener="#{studentMB.deleteSelectedStudents}"
                 styleClass="ui-button-danger"
-                disabled="#{!studentMB.hasSelectedStudents()}"
+                disabled="#{studentMB.hasnotSelectedStudents()}"
                 update="@this"
               >
                 <p:confirm
@@ -158,18 +156,7 @@
             >
               <h:outputText value="#{student.name}" />
             </p:column>
-            <!-- <p:column headerText="Image" exportable="false">
-              <p:graphicImage
-                name="images/product/#{product.image}"
-                library="demo"
-                styleClass="product-image"
-              />
-            </p:column> -->
-            <!-- <p:column headerText="Price" sortBy="#{product.price}">
-              <h:outputText value="#{product.price}" style="font-weight: 700">
-                <f:convertNumber currencySymbol="$" type="currency" />
-              </h:outputText>
-            </p:column> -->
+
             <p:column
               headerText="Surname"
               sortBy="#{student.surname}"
@@ -177,19 +164,7 @@
             >
               <h:outputText value="#{student.surname}" />
             </p:column>
-            <!-- <p:column headerText="Reviews" sortBy="#{product.rating}">
-              <p:rating value="#{product.rating}" readonly="true" />
-            </p:column> -->
-            <!-- <p:column
-              headerText="Status"
-              sortBy="#{product.inventoryStatus}"
-              filterBy="#{product.inventoryStatus}"
-            >
-              <h:outputText
-                styleClass="product-badge status-#{product.inventoryStatus.name().toLowerCase()}"
-                value="#{product.inventoryStatus.text}"
-              />
-            </p:column> -->
+
             <p:column exportable="false">
               <p:commandButton
                 icon="pi pi-pencil"
@@ -229,12 +204,6 @@
           >
             <p:outputPanel id="manage-product-content" class="ui-fluid">
               <p:outputPanel rendered="#{not empty studentMB.selectedStudent}">
-                <!-- <p:graphicImage
-                  name="images/product/#{crudView.selectedProduct.image}"
-                  library="demo"
-                  styleClass="product-image"
-                  rendered="#{not empty crudView.selectedProduct.image}"
-                /> -->
                 <div class="field">
                   <p:outputLabel for="name">Name</p:outputLabel>
                   <p:inputText
@@ -243,13 +212,7 @@
                     required="true"
                   />
                 </div>
-                <!-- <div class="field">
-                  <p:outputLabel for="description">Description</p:outputLabel>
-                  <p:inputTextarea
-                    id="description"
-                    value="#{crudView.selectedProduct.description}"
-                  />
-                </div> -->
+
                 <div class="field">
                   <p:outputLabel for="surname">Surname</p:outputLabel>
                   <p:selectOneRadio
@@ -270,27 +233,6 @@
                     <f:selectItem itemLabel="Fitness" itemValue="Fitness" />
                   </p:selectOneRadio>
                 </div>
-                <!-- <div class="formgrid grid">
-                  <div class="field col">
-                    <p:outputLabel for="price">Price</p:outputLabel>
-                    <p:inputNumber
-                      id="price"
-                      value="#{crudView.selectedProduct.price}"
-                      symbol=" USD"
-                      symbolPosition="s"
-                      decimalSeparator="."
-                      thousandSeparator=","
-                    />
-                  </div>
-                  <div class="field col">
-                    <p:outputLabel for="quantity">Quantity</p:outputLabel>
-                    <p:spinner
-                      id="quantity"
-                      min="0"
-                      value="#{crudView.selectedProduct.quantity}"
-                    />
-                  </div>
-                </div> -->
               </p:outputPanel>
             </p:outputPanel>
 
