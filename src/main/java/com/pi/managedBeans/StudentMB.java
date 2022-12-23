@@ -2,8 +2,12 @@ package com.pi.managedBeans;
 
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
+
+import org.primefaces.PrimeFaces;
+
 import javax.faces.bean.ViewScoped;
 import com.pi.dao.StudentDao;
 import com.pi.entities.Student;
@@ -15,9 +19,9 @@ public class StudentMB {
     private Student student = new Student();
     private Student selectedStudent = new Student();
     private List<Student> students;
+    private List<Student> selectedStudents;
     StudentDao studentDao = new StudentDao();
 
-    
     public String add() {
         studentDao.add(student);
         return "student.xhtml?faces-redirect=true";
@@ -73,4 +77,59 @@ public class StudentMB {
         this.selectedStudent = selectedStudent;
     }
 
+    public List<Student> getSelectedStudents() {
+        return selectedStudents;
+    }
+
+    public void setSelectedStudents(List<Student> selectedStudents) {
+        this.selectedStudents = selectedStudents;
+    }
+
+    public void openNew() {
+        this.student = new Student();
+    }
+
+    public boolean hasSelectedStudents() {
+        return selectedStudents != null && !selectedStudents.isEmpty();
+    }
+
+    public String getDeleteButtonMessage() {
+        if (hasSelectedStudents()) {
+            int size = this.selectedStudents.size();
+            return size > 1 ? size + " students selected" : "1 student selected";
+        }
+
+        return "Delete";
+    }
+
+    public void deleteSelectedStudents() {
+        for (Student student : selectedStudents) {
+            studentDao.delete(student);
+        }
+        this.selectedStudents = null;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Students Removed"));
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-students");
+        PrimeFaces.current().executeScript("PF('dtStudents').clearFilters()");
+    }
+
+    public void saveStudent() {
+        if (this.selectedStudent.getSubscription_number() == 0) {
+            studentDao.add(this.selectedStudent);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Student Added"));
+        } else {
+            studentDao.update(this.selectedStudent);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Student Updated"));
+        }
+
+        PrimeFaces.current().executeScript("PF('manageStudentDialog').hide()");
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-students");
+    }
+
+    public void deleteStudent() {
+        studentDao.delete(this.selectedStudent);
+        this.selectedStudent = null;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Student Removed"));
+        PrimeFaces.current().executeScript("PF('manageStudentDialog').hide()");
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-students");
+    }
 }
