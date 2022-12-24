@@ -24,7 +24,7 @@ public class GroupMB implements Serializable {
    
 	private static final long serialVersionUID = 1L;
 	private StudentsGroup studentsGroup = new StudentsGroup();
-    private StudentsGroup selectedGroup = new StudentsGroup();
+    private StudentsGroup selectedStudentsGroup = new StudentsGroup();
     private List<StudentsGroup> StudentsGroups;
     private List<StudentsGroup> selectedStudentsGroups;
     @Inject
@@ -37,12 +37,12 @@ public class GroupMB implements Serializable {
     }
 
     public String update() {
-        groupDao.update(selectedGroup);
+        groupDao.update(studentsGroup);
         return "groups.xhtml?faces-redirect=true";
     }
 
     public String delete() {
-        groupDao.delete(selectedGroup);
+        groupDao.delete(studentsGroup);
         return "groups.xhtml?faces-redirect=true";
     }
 
@@ -56,7 +56,7 @@ public class GroupMB implements Serializable {
         StudentsGroup studentsGroup = new StudentsGroup();
         studentsGroup = groupDao.getGroupById(Integer.parseInt(id));
         if (studentsGroup != null) {
-            this.selectedGroup = studentsGroup;
+            this.selectedStudentsGroup = studentsGroup;
         }
     }
 
@@ -77,11 +77,11 @@ public class GroupMB implements Serializable {
     }
 
     public StudentsGroup getSelectedStudentsGroup() {
-        return selectedGroup;
+        return selectedStudentsGroup;
     }
 
     public void setSelectedStudentsGroup(StudentsGroup selectedStudentsGroup) {
-        this.selectedGroup = selectedStudentsGroup;
+        this.selectedStudentsGroup = selectedStudentsGroup;
     }
 
     public List<StudentsGroup> getSelectedStudentsGroups() {
@@ -93,13 +93,13 @@ public class GroupMB implements Serializable {
     }
 
     public void openNew() {
-    	this.selectedGroup= new StudentsGroup();
+    	this.selectedStudentsGroup= new StudentsGroup();
     }
 
     
 
     public boolean hasSelectedStudentsGroup() {
-        return this.selectedGroup != null;
+        return this.selectedStudentsGroup != null;
     }
 
     public boolean hasSelectedStudentsGroups() {
@@ -127,13 +127,13 @@ public class GroupMB implements Serializable {
     }
 
     public void saveStudentsGroup() {
-        if (this.selectedGroup.getId() == 0) {
-           groupDao.add(this.selectedGroup);
-            this.StudentsGroups.add(this.selectedGroup);
+        if (this.selectedStudentsGroup.getId() == 0) {
+           groupDao.add(this.selectedStudentsGroup);
+            this.StudentsGroups.add(this.selectedStudentsGroup);
             
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("StudentsGroup Added"));
         } else {
-            groupDao.update(this.selectedGroup);
+            groupDao.update(this.selectedStudentsGroup);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("StudentsGroup Updated"));
         }
 
@@ -143,13 +143,13 @@ public class GroupMB implements Serializable {
     }
 
     public void deleteStudentsGroup() {
-       groupDao.delete(this.selectedGroup);
-        this.StudentsGroups.remove(this.selectedGroup);
-        this.selectedStudentsGroups.remove(this.selectedGroup);
+       groupDao.delete(this.selectedStudentsGroup);
+        this.StudentsGroups.remove(this.selectedStudentsGroup);
+        this.selectedStudentsGroups.remove(this.selectedStudentsGroup);
         
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("StudentsGroup Removed"));
         PrimeFaces.current().ajax().update("form:messages", "form:dt-StudentsGroups");
-        this.selectedGroup = null;
+        this.selectedStudentsGroup = null;
     }
 
     public boolean hasnotSelectedStudentsGroups() {
