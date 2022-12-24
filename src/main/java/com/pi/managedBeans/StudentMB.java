@@ -92,8 +92,10 @@ public class StudentMB implements Serializable {
     }
 
     public void openNew() {
-        this.student = new Student();
+    	this.selectedStudent= new Student();
     }
+
+    
 
     public boolean hasSelectedStudent() {
         return this.selectedStudent != null;
@@ -113,7 +115,8 @@ public class StudentMB implements Serializable {
     }
 
     public void deleteSelectedStudents() {
-        for (Student student : selectedStudents) {
+        this.students.removeAll(this.selectedStudents);
+        for (Student student : this.selectedStudents) {
             studentDao.delete(student);
         }
         this.selectedStudents = null;
@@ -125,6 +128,8 @@ public class StudentMB implements Serializable {
     public void saveStudent() {
         if (this.selectedStudent.getSubscription_number() == 0) {
             studentDao.add(this.selectedStudent);
+            this.students.add(this.selectedStudent);
+            
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Student Added"));
         } else {
             studentDao.update(this.selectedStudent);
@@ -134,17 +139,16 @@ public class StudentMB implements Serializable {
         PrimeFaces.current().executeScript("PF('manageStudentDialog').hide()");
         PrimeFaces.current().ajax().update("form:messages", "form:dt-students");
         
-        
-        System.out.println(this.selectedStudent.toString() + " Saved");
-        System.out.println(PrimeFaces.current().toString());
     }
 
     public void deleteStudent() {
         studentDao.delete(this.selectedStudent);
-        this.selectedStudent = null;
+        this.students.remove(this.selectedStudent);
+        this.selectedStudents.remove(this.selectedStudent);
+        
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Student Removed"));
-        PrimeFaces.current().executeScript("PF('manageStudentDialog').hide()");
         PrimeFaces.current().ajax().update("form:messages", "form:dt-students");
+        this.selectedStudent = null;
     }
 
     public boolean hasnotSelectedStudents() {

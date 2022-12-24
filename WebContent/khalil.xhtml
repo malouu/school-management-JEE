@@ -155,7 +155,6 @@
             <p:column
               headerText="Surname"
               sortBy="#{student.surname}"
-              filterBy="#{student.surname}"
             >
               <h:outputText value="#{student.surname}" />
             </p:column>
@@ -214,7 +213,7 @@
             responsive="true"
           >
             <p:outputPanel id="manage-student-content" class="ui-fluid">
-              <p:outputPanel rendered="#{studentMB.hasSelectedStudent()}">
+              <p:outputPanel rendered="#{not empty studentMB.selectedStudent}">
                 <div class="field">
                   <p:outputLabel for="name">Name</p:outputLabel>
                   <p:inputText
@@ -257,7 +256,6 @@
                 actionListener="#{studentMB.saveStudent}"
                 update="manage-student-content"
                 process="manage-student-content @this"
-                oncomplete="PF('manageStudentDialog').hide()"
               />
               <p:commandButton
                 value="Cancel"
@@ -283,6 +281,7 @@
               actionListener="#{studentMB.deleteStudent}"
               process="@this"
               update=":form:delete-students-button"
+              oncomplete="PF('deleteStudentDialog').hide()"
             />
             <p:commandButton
               value="No"
