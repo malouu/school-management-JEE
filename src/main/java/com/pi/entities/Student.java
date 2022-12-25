@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 
@@ -17,6 +19,12 @@ public class Student implements Serializable {
 	private String surname;
 	private String email;
 	private String phone_number;
+	@ManyToOne
+	@JoinColumn (name="GP_ID")
+	private StudentsGroup group;
+
+	
+	
 
 	public int getSubscription_number() {
 		return subscription_number;
@@ -57,7 +65,9 @@ public class Student implements Serializable {
 	public void setPhone_number(String phone_number) {
 		this.phone_number = phone_number;
 	}
-
+	public void setGroup(StudentsGroup group) {
+		this.group= group;
+	}
 	@Override
 	public String toString() {
 		return "Student [subscription_number=" + subscription_number + ", name=" + name + ", surname=" + surname

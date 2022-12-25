@@ -155,3 +155,5 @@ public class StudentMB implements Serializable {
         return !hasSelectedStudents();
     }
 }
+// parcourir une liste et afficher ses elements en java
+// Path: StudentDao.java
