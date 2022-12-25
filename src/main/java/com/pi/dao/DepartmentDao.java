@@ -8,7 +8,7 @@ import com.pi.entities.Department;
 import com.pi.utils.JPAutil;
 
 public class DepartmentDao {
-    private EntityManager entityManager = JPAutil.getEntityManager("SchoolManagement");
+	private EntityManager entityManager = JPAutil.getEntityManager("SchoolManagement");
 
     public void add(Department department) {
         entityManager.getTransaction().begin();

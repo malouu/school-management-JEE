@@ -21,6 +21,9 @@ public class StudentsGroup implements Serializable {
 	private String name;
 	private String level;
 	
+	@ManyToOne
+	@JoinColumn (name="dept_ID")
+	
 	private Department department;
 	
 

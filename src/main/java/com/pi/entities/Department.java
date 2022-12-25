@@ -19,9 +19,9 @@ public class Department implements Serializable {
     private Long id;
     private String name;
     
-   // @OneToMany (mappedBy="department") //sans (mappedBy="d") une table intermédiare 
+    @OneToMany (mappedBy="department") //sans (mappedBy="d") une table intermédiare 
 	//departement_employee sera créée
-	private List<Student> students;
+	private List<StudentsGroup> studentsGroup;
 
     public Department() {
     }
