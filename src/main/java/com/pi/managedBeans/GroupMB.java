@@ -21,14 +21,14 @@ import com.pi.entities.StudentsGroup;
 @ViewScoped
 
 public class GroupMB implements Serializable {
-   
-	private static final long serialVersionUID = 1L;
-	private StudentsGroup studentsGroup = new StudentsGroup();
+
+    private static final long serialVersionUID = 1L;
+    private StudentsGroup studentsGroup = new StudentsGroup();
     private StudentsGroup selectedStudentsGroup = new StudentsGroup();
-    private List<StudentsGroup> StudentsGroups;
+    private List<StudentsGroup> studentsGroups;
     private List<StudentsGroup> selectedStudentsGroups;
     @Inject
-    
+
     GroupDao groupDao = new GroupDao();
 
     public String add() {
@@ -47,7 +47,7 @@ public class GroupMB implements Serializable {
     }
 
     public void initDataTable() {
-    	StudentsGroups = groupDao.getAllGroups();
+        studentsGroups = groupDao.getAllGroups();
     }
 
     public void initForm() {
@@ -69,11 +69,11 @@ public class GroupMB implements Serializable {
     }
 
     public List<StudentsGroup> getStudentsGroups() {
-        return StudentsGroups;
+        return studentsGroups;
     }
 
     public void setStudentsGroups(List<StudentsGroup> StudentsGroups) {
-        this.StudentsGroups = StudentsGroups;
+        this.studentsGroups = StudentsGroups;
     }
 
     public StudentsGroup getSelectedStudentsGroup() {
@@ -85,18 +85,18 @@ public class GroupMB implements Serializable {
     }
 
     public List<StudentsGroup> getSelectedStudentsGroups() {
+        System.out.println("Bye");
         return selectedStudentsGroups;
     }
 
     public void setSelectedStudentsGroups(List<StudentsGroup> selectedStudentsGroups) {
         this.selectedStudentsGroups = selectedStudentsGroups;
+        System.out.println("hello" + selectedStudentsGroups);
     }
 
     public void openNew() {
-    	this.selectedStudentsGroup= new StudentsGroup();
+        this.selectedStudentsGroup = new StudentsGroup();
     }
-
-    
 
     public boolean hasSelectedStudentsGroup() {
         return this.selectedStudentsGroup != null;
@@ -109,52 +109,53 @@ public class GroupMB implements Serializable {
     public String getDeleteButtonMessage() {
         if (hasSelectedStudentsGroups()) {
             int size = this.selectedStudentsGroups.size();
-            return size > 1 ? size + " StudentsGroups selected" : "1 StudentsGroup selected";
+            return size > 1 ? size + " Students Groups selected" : "1 Students Group selected";
         }
 
         return "Delete";
     }
 
     public void deleteSelectedStudentsGroups() {
-        this.StudentsGroups.removeAll(this.selectedStudentsGroups);
+        this.studentsGroups.removeAll(this.selectedStudentsGroups);
         for (StudentsGroup StudentsGroup : this.selectedStudentsGroups) {
             groupDao.delete(StudentsGroup);
         }
         this.selectedStudentsGroups = null;
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("StudentsGroups Removed"));
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-StudentsGroups");
-        PrimeFaces.current().executeScript("PF('dtStudentsGroups').clearFilters()");
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-groups");
+        PrimeFaces.current().executeScript("PF('dtGroups').clearFilters()");
     }
 
     public void saveStudentsGroup() {
+        System.out.println("saveStudentsGroup");
         if (this.selectedStudentsGroup.getId() == 0) {
-           groupDao.add(this.selectedStudentsGroup);
-            this.StudentsGroups.add(this.selectedStudentsGroup);
-            
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("StudentsGroup Added"));
+            groupDao.add(this.selectedStudentsGroup);
+            this.studentsGroups.add(this.selectedStudentsGroup);
+
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Students Group Added"));
         } else {
             groupDao.update(this.selectedStudentsGroup);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("StudentsGroup Updated"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Students Group Updated"));
         }
 
         PrimeFaces.current().executeScript("PF('manageStudentsGroupDialog').hide()");
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-StudentsGroups");
-        
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-groups");
+
     }
 
     public void deleteStudentsGroup() {
-       groupDao.delete(this.selectedStudentsGroup);
-        this.StudentsGroups.remove(this.selectedStudentsGroup);
+        groupDao.delete(this.selectedStudentsGroup);
+        this.studentsGroups.remove(this.selectedStudentsGroup);
         this.selectedStudentsGroups.remove(this.selectedStudentsGroup);
-        
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("StudentsGroup Removed"));
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-StudentsGroups");
+
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Students Group Removed"));
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-groups");
         this.selectedStudentsGroup = null;
     }
 
     public boolean hasnotSelectedStudentsGroups() {
+        System.out.println(selectedStudentsGroups);
         return !hasSelectedStudentsGroups();
     }
-
 
 }

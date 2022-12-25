@@ -2,11 +2,16 @@ package com.pi.dao;
 
 import java.util.List;
 
+import javax.faces.bean.ApplicationScoped;
+import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import com.pi.entities.StudentsGroup;
 import com.pi.entities.Student;
 import com.pi.utils.JPAutil;
+
+@Named
+@ApplicationScoped
 
 public class GroupDao {
 	private EntityManager entityManager = JPAutil.getEntityManager("SchoolManagement");

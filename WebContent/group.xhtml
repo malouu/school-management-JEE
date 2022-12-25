@@ -71,7 +71,7 @@
               >
                 <p:confirm
                   header="Confirmation"
-                  message="Delete the selected group?"
+                  message="Delete the selected groups?"
                   icon="pi pi-exclamation-triangle"
                 />
               </p:commandButton>
@@ -85,7 +85,7 @@
               >
                 <p:dataExporter
                   type="pdf"
-                  target="dt-Groups"
+                  target="dt-groups"
                   fileName="Groups"
                 />
               </p:commandButton>
@@ -100,7 +100,7 @@
             reflow="true"
             styleClass="Groups-table"
             selection="#{groupMB.selectedStudentsGroups}"
-            rowKey="#{student.subscription_number}"
+            rowKey="#{group.id}"
             paginator="true"
             rows="10"
             rowSelectMode="add"
@@ -109,7 +109,7 @@
             <f:facet name="header">
               <div class="groups-table-header">
                 <span style="font-weight: bold">Groups</span>
-                <span class="filter-container ui-input-icon-left">
+                <span align="right" class="filter-container ui-input-icon-left">
                   <i class="pi pi-search"></i>
                   <p:inputText
                     id="globalFilter"
@@ -134,15 +134,19 @@
 
             <p:column selectionMode="multiple" exportable="false"></p:column>
 
-            <p:column headerText="Group Number" sortBy="#{studentsGroup.id}">
-              <h:outputText value="#{studentsGroup.id}" />
+            <p:column
+              headerText="Group ID"
+              sortBy="#{group.id}"
+              filterBy="#{group.id}"
+            >
+              <h:outputText value="#{group.id}" />
             </p:column>
-            <p:column headerText="Name" sortBy="#{studentsGroup.name}">
-              <h:outputText value="#{studentsGroup.name}" />
+            <p:column headerText="Group Name" sortBy="#{group.name}">
+              <h:outputText value="#{group.name}" />
             </p:column>
 
-            <p:column headerText="Surname" sortBy="#{studentsGroup.level}">
-              <h:outputText value="#{studentsGroup.level}" />
+            <p:column headerText="Group Level" sortBy="#{group.level}">
+              <h:outputText value="#{group.level}" />
             </p:column>
 
             <p:column exportable="false">
@@ -155,7 +159,7 @@
               >
                 <f:setPropertyActionListener
                   value="#{group}"
-                  target="#{groupMB.selectedStudentsGroup }"
+                  target="#{groupMB.selectedStudentsGroup}"
                 />
                 <p:resetInput target=":dialogs:manage-group-content" />
               </p:commandButton>
@@ -163,11 +167,11 @@
                 class="ui-button-warning rounded-button"
                 icon="pi pi-trash"
                 process="@this"
-                oncomplete="PF('deleteGroupDialog').show()"
+                oncomplete="PF('deleteStudentsGroupDialog').show()"
               >
                 <f:setPropertyActionListener
-                  value="#{studentsGroup}"
-                  target="#{groupMB.selectedStudentsGroup }"
+                  value="#{group}"
+                  target="#{groupMB.selectedStudentsGroup}"
                 />
               </p:commandButton>
             </p:column>
@@ -195,9 +199,9 @@
                   />
                 </div>
                 <div class="field">
-                  <p:outputLabel for="name">Surname</p:outputLabel>
+                  <p:outputLabel for="level">Level</p:outputLabel>
                   <p:inputText
-                    id="surname"
+                    id="level"
                     value="#{groupMB.selectedStudentsGroup.level }"
                     required="true"
                   />
@@ -209,7 +213,7 @@
               <p:commandButton
                 value="Save"
                 icon="pi pi-check"
-                actionListener="#{groupMB.selectedStudentsGroup}"
+                actionListener="#{groupMB.saveStudentsGroup}"
                 update="manage-group-content"
                 process="manage-group-content @this"
               />
