@@ -84,5 +84,6 @@ public class StudentDao {
 		List<String> emails = entityManager.createQuery("select email from Student").getResultList();
 		return emails;
 	}
+	
 
 }
