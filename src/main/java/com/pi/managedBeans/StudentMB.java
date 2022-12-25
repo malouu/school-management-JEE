@@ -24,6 +24,7 @@ public class StudentMB implements Serializable {
     private Student selectedStudent = new Student();
     private List<Student> students;
     private List<Student> selectedStudents;
+    private List<Student> filteredStudents;
 
     @Inject
     StudentDao studentDao = new StudentDao();
@@ -92,10 +93,8 @@ public class StudentMB implements Serializable {
     }
 
     public void openNew() {
-    	this.selectedStudent= new Student();
+        this.selectedStudent = new Student();
     }
-
-    
 
     public boolean hasSelectedStudent() {
         return this.selectedStudent != null;
@@ -129,7 +128,7 @@ public class StudentMB implements Serializable {
         if (this.selectedStudent.getSubscription_number() == 0) {
             studentDao.add(this.selectedStudent);
             this.students.add(this.selectedStudent);
-            
+
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Student Added"));
         } else {
             studentDao.update(this.selectedStudent);
@@ -138,14 +137,14 @@ public class StudentMB implements Serializable {
 
         PrimeFaces.current().executeScript("PF('manageStudentDialog').hide()");
         PrimeFaces.current().ajax().update("form:messages", "form:dt-students");
-        
+
     }
 
     public void deleteStudent() {
         studentDao.delete(this.selectedStudent);
         this.students.remove(this.selectedStudent);
         this.selectedStudents.remove(this.selectedStudent);
-        
+
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Student Removed"));
         PrimeFaces.current().ajax().update("form:messages", "form:dt-students");
         this.selectedStudent = null;
@@ -153,6 +152,39 @@ public class StudentMB implements Serializable {
 
     public boolean hasnotSelectedStudents() {
         return !hasSelectedStudents();
+    }
+    public List<Student> getFilteredStudents() {
+        System.out.println("getFilteredStudents"+filteredStudents);
+        return filteredStudents;
+    }
+    public void setFilteredStudents(List<Student> filteredStudents) {
+    	System.out.println("setFilteredStudents"+filteredStudents);
+        this.filteredStudents = filteredStudents;
+    }
+
+    public boolean globalFilterFunction(Object value, Object filter) {
+        String filterText = (filter == null) ? null : filter.toString().trim();
+        System.out.println("filterText: " + filterText);
+        if (filterText == null || filterText.equals("")) {
+            return true;
+        }
+
+        int filterInt = getInteger(filterText);
+
+        Student student = (Student) value;
+        return student.getSubscription_number() == filterInt
+                || student.getName().toLowerCase().contains(filterText)
+                || student.getSurname().toLowerCase().contains(filterText)
+                || student.getEmail().toLowerCase().contains(filterText)
+                || student.getPhone_number().toLowerCase().contains(filterText);
+    }
+    private int getInteger(String string) {
+        try {
+            return Integer.parseInt(string);
+        }
+        catch (NumberFormatException ex) {
+            return 0;
+        }
     }
 }
 // parcourir une liste et afficher ses elements en java

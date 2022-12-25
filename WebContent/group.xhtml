@@ -138,14 +138,25 @@
               headerText="Group ID"
               sortBy="#{group.id}"
               filterBy="#{group.id}"
+              filterStyle="display: none"
             >
               <h:outputText value="#{group.id}" />
             </p:column>
-            <p:column headerText="Group Name" sortBy="#{group.name}">
+            <p:column
+              headerText="Group Name"
+              sortBy="#{group.name}"
+              filterBy="#{group.name}"
+              filterStyle="display: none"
+            >
               <h:outputText value="#{group.name}" />
             </p:column>
 
-            <p:column headerText="Group Level" sortBy="#{group.level}">
+            <p:column
+              headerText="Group Level"
+              sortBy="#{group.level}"
+              filterBy="#{group.level}"
+              filterStyle="display: none"
+            >
               <h:outputText value="#{group.level}" />
             </p:column>
 

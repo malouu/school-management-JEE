@@ -105,11 +105,14 @@
             rows="10"
             rowSelectMode="add"
             paginatorPosition="bottom"
+            emptyMessage="No students found with the given criteria."
           >
             <f:facet name="header">
               <div class="students-table-header">
                 <span style="font-weight: bold">STUDENTS</span>
-                <span class="filter-container ui-input-icon-left">
+                <span
+                  class="filter-container ui-input-icon-left flex justify-content-end"
+                >
                   <i class="pi pi-search"></i>
                   <p:inputText
                     id="globalFilter"
@@ -139,39 +142,54 @@
 
             <p:column
               headerText="Subscription Number"
+              field="subscription_number"
               sortBy="#{student.subscription_number}"
               filterBy="#{student.subscription_number}"
+              filterStyle="display: none"
+              filtrable="false"
             >
               <h:outputText value="#{student.subscription_number}" />
             </p:column>
             <p:column
               headerText="Name"
+              field="name"
               sortBy="#{student.name}"
-            
+              filterBy="#{student.name}"
+              filterStyle="display: none"
+              filtrable="false"
             >
               <h:outputText value="#{student.name}" />
             </p:column>
 
             <p:column
               headerText="Surname"
+              field="surname"
               sortBy="#{student.surname}"
+              filterBy="#{student.surname}"
+              filterStyle="display: none"
+              filtrable="false"
             >
               <h:outputText value="#{student.surname}" />
             </p:column>
 
             <p:column
               headerText="Email"
+              field="email"
               sortBy="#{student.email}"
-            
+              filterBy="#{student.email}"
+              filterStyle="display: none"
+              filtrable="false"
             >
-           
               <h:outputText value="#{student.email}" />
             </p:column>
 
             <p:column
               headerText="Phone Number"
+              field="phone_number"
               sortBy="#{student.phone_number}"
               filterBy="#{student.phone_number}"
+              filterStyle="display: none"
+              filtrable="false"
             >
               <h:outputText value="#{student.phone_number}" />
             </p:column>
