@@ -7,7 +7,6 @@
   xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
   xmlns:p="http://primefaces.org/ui"
 >
-
   <f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
     <f:metadata>
       <f:viewAction action="#{studentMB.initDataTable}" />
@@ -42,31 +41,6 @@
           </f:facet>
         </p:menubar>
         <br />
-        <div class="card">
-    <h:form >
-        <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
-
-        <p:panel header="Group Grade Managememt" style="margin-bottom:10px;">
-        <div style="display: flex; flex-direction: row; align-items:center">
-            <h:panelGrid columns="2" cellpadding="3" >
-                <p:outputLabel for="country" value="Course: "/>
-                <p:selectOneMenu id="country" value="#{basicView.country}" style="width:150px">
-                    
-                    <f:selectItem itemLabel="Select Course" itemValue="" noSelectionOption="true"/>
-                   <f:selectItems value="#{basicView.countries}"/>
-                </p:selectOneMenu>
-
-            </h:panelGrid>
-
-            <p:button value="Manage Grade" outcome="malek" update="msgs" action="#{basicView.displayLocation}"
-             style="margin-left:20px;" styleClass="ui-button-secondary" icon="pi pi-check" >
-               <f:param name="code" value="#{student.subscription_number}" />
-            
-             </p:button>
-         </div>
-        </p:panel>
-    </h:form>
-</div>
       </h:form>
 
       <div class="card crud-demo">
