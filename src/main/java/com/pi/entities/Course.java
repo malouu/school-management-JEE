@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 
@@ -22,11 +23,10 @@ public class Course implements Serializable{
     
     private String name;
     private float coef;
-    @ManyToMany 
-    @JoinTable( name = "hello",
-    joinColumns = @JoinColumn( name = "id_Course" ),
-    inverseJoinColumns = @JoinColumn( name = "subscription_number" ) )
-    private List<Student> Student;
+   
+    @OneToMany (mappedBy="course") 
+    //sans (mappedBy="d") une table intermédiare departement_employee sera crée
+	private List<Grade> Grade;
 
     
 	public String getName() {

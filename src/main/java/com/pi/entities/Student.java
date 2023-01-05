@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 
@@ -28,6 +29,10 @@ public class Student implements Serializable {
     joinColumns = @JoinColumn( name = "subscription_number" ),
     inverseJoinColumns = @JoinColumn( name = "id_Course" ) )
     private List<Course> Courses;
+
+    @OneToMany (mappedBy="student") 
+    //sans (mappedBy="d") une table intermédiare departement_employee sera crée
+	private List<Grade> Grade;
 	@ManyToOne
 	@JoinColumn (name="GRP_ID")
 	private StudentsGroup group;
