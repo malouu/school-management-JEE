@@ -3,8 +3,12 @@
 	<persistence-unit name="SchoolManagement" transaction-type="RESOURCE_LOCAL">
 		<class>com.pi.entities.CoursesGroup</class>
 		<class>com.pi.entities.Department</class>
+		<class>com.pi.entities.Grade</class>
+		<class>com.pi.entities.GradeType</class>
 		<class>com.pi.entities.Student</class>
 		<class>com.pi.entities.StudentsGroup</class>
+		<class>com.pi.entities.Teacher</class>
+		<class>com.pi.entities.User</class>
 		
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/school"/>

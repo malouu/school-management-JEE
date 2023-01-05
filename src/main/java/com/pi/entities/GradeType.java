@@ -1,10 +1,16 @@
 package com.pi.entities;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+
+import java.io.Serializable;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-public class GradeType {
+
+@Entity
+
+public class GradeType implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
     @Id
