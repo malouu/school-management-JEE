@@ -20,7 +20,7 @@ public class Student implements Serializable {
 	private String email;
 	private String phone_number;
 	@ManyToOne
-	@JoinColumn (name="GP_ID")
+	@JoinColumn (name="GRP_ID")
 	private StudentsGroup group;
 
 	

@@ -1,10 +1,19 @@
 package com.pi.entities;
 
+import java.io.Serializable;
+
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.io.Serializable;
 
-public class CoursesGroup {
+
+
+@Entity
+
+public class CoursesGroup implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
     @Id
