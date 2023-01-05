@@ -41,6 +41,27 @@
           </f:facet>
         </p:menubar>
         <br />
+        <div class="card">
+    <h:form >
+        <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+
+        <p:panel header="Group Grade Managememt" style="margin-bottom:10px;">
+        <div style="display: flex; flex-direction: row">
+            <h:panelGrid columns="2" cellpadding="3" >
+                <p:outputLabel for="country" value="Course: "/>
+                <p:selectOneMenu id="country" value="#{basicView.country}" style="width:150px">
+                    
+                    <f:selectItem itemLabel="Select Course" itemValue="" noSelectionOption="true"/>
+                   <f:selectItems value="#{basicView.countries}"/>
+                </p:selectOneMenu>
+
+            </h:panelGrid>
+
+            <p:commandButton value="Manage Grade" update="msgs" action="#{basicView.displayLocation}" style="margin-left:40px;" styleClass="ui-button-secondary" icon="pi pi-check" />
+                             </div>
+        </p:panel>
+    </h:form>
+</div>
       </h:form>
 
       <div class="card crud-demo">
