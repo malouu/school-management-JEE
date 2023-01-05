@@ -24,15 +24,20 @@ public class Student implements Serializable {
 	private String surname;
 	private String email;
 	private String phone_number;
+<<<<<<< HEAD
 	
 
     @OneToMany (mappedBy="student") 
     //sans (mappedBy="d") une table intermédiare departement_employee sera crée
 	private List<Grade> Grade;
+=======
+	@ManyToMany
+	@JoinTable(name = "hello", joinColumns = @JoinColumn(name = "subscription_number"), inverseJoinColumns = @JoinColumn(name = "id_Course"))
+	private List<Course> Courses;
+>>>>>>> branch 'master' of https://github.com/malouu/JEEProject.git
 	@ManyToOne
-	@JoinColumn (name="GRP_ID")
+	@JoinColumn(name = "GRP_ID")
 	private StudentsGroup group;
-	
 
 	public int getSubscription_number() {
 		return subscription_number;
@@ -73,9 +78,20 @@ public class Student implements Serializable {
 	public void setPhone_number(String phone_number) {
 		this.phone_number = phone_number;
 	}
+
 	public void setGroup(StudentsGroup group) {
-		this.group= group;
+		this.group = group;
 	}
+
+	public StudentsGroup getGroup() {
+		return group;
+	}
+
+	public List<Grade
+			// TODO fix this
+	}
+
+	
 	@Override
 	public String toString() {
 		return "Student [subscription_number=" + subscription_number + ", name=" + name + ", surname=" + surname
