@@ -6,41 +6,43 @@ import javax.faces.bean.ApplicationScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import com.pi.entities.GradeType;
+import com.pi.entities.User;
 import com.pi.utils.JPAutil;
+
 @Named
 @ApplicationScoped
-public class GradeTypeDao {
+
+public class UserDao {
 
     private EntityManager entityManager = JPAutil.getEntityManager("SchoolManagement");
 
-    public void add(GradeType gradeType) {
+    public void add(User user) {
         entityManager.getTransaction().begin();
-        entityManager.persist(gradeType);
+        entityManager.persist(user);
         entityManager.getTransaction().commit();
     }
 
-    public void update(GradeType gradeType) {
+    public void update(User user) {
         entityManager.getTransaction().begin();
-        entityManager.merge(gradeType);
+        entityManager.merge(user);
         entityManager.getTransaction().commit();
     }
 
-    public void delete(GradeType gradeType) {
+    public void delete(User user) {
         entityManager.getTransaction().begin();
-        gradeType = entityManager.merge(gradeType);
-        entityManager.remove(gradeType);
+        user = entityManager.merge(user);
+        entityManager.remove(user);
         entityManager.getTransaction().commit();
     }
 
-    // get types by id
-    public GradeType getGradeTypeById(int id) {
-        return entityManager.find(GradeType.class, id);
+    // get user by id
+    public User getUserById(int id) {
+        return entityManager.find(User.class, id);
     }
 
-    // get all grade types
-    public List<GradeType> getAllGradeTypes() {
-        return entityManager.createQuery("select g from GradeType g").getResultList();
+    // get all users
+    public List<User> getAllUsers() {
+        return entityManager.createQuery("select c from User c").getResultList();
     }
 
 }
