@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -17,12 +18,17 @@ public class StudentsGroup implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private int id_GRP;
 	private String name;
 	private String level;
 	
-	@ManyToOne
-	@JoinColumn (name="dept_ID")
+	@JoinTable( name = "T_GRP_CoursesGrp_Associations",
+		    joinColumns = @JoinColumn( name = "id_GRP" ),
+		    inverseJoinColumns = @JoinColumn( name = "id_CoursesGrp" ) )
+		    private List<CoursesGroup> CoursesGroup;
+	
+	 @ManyToOne
+	 @JoinColumn (name="dept_ID")
 	
 	private Department department;
 	
@@ -42,11 +48,11 @@ public class StudentsGroup implements Serializable {
 
 	
 	public int getId() {
-		return id;
+		return id_GRP;
 	}
 
 	public void setId(int id) {
-		this.id = id;
+		this.id_GRP = id;
 	}
 
 	public String getName() {
@@ -68,14 +74,14 @@ public class StudentsGroup implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Group [id=" + id + ", name=" + name + ", level=" + level + "]";
+		return "Group [id=" + id_GRP + ", name=" + name + ", level=" + level + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + id;
+		result = prime * result + id_GRP;
 		result = prime * result + ((level == null) ? 0 : level.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
@@ -91,7 +97,7 @@ public class StudentsGroup implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		StudentsGroup other = (StudentsGroup) obj;
-		if (id != other.id)
+		if (id_GRP!= other.id_GRP)
 			return false;
 		if (level == null) {
 			if (other.level != null)

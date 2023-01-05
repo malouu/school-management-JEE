@@ -1,11 +1,15 @@
 package com.pi.entities;
 
 import java.io.Serializable;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -19,11 +23,14 @@ public class Student implements Serializable {
 	private String surname;
 	private String email;
 	private String phone_number;
+	@ManyToMany 
+    @JoinTable( name = "hello",
+    joinColumns = @JoinColumn( name = "subscription_number" ),
+    inverseJoinColumns = @JoinColumn( name = "id_Course" ) )
+    private List<Course> Courses;
 	@ManyToOne
-	@JoinColumn (name="GP_ID")
+	@JoinColumn (name="GRP_ID")
 	private StudentsGroup group;
-
-	
 	
 
 	public int getSubscription_number() {

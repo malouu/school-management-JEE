@@ -33,7 +33,9 @@ public class DepartmentDao {
         return entityManager.createQuery("SELECT d FROM Department d", Department.class).getResultList();
     }
 
-    public Department getDepartmentById(Long id) {
+   
+    public Department getDepartmentById(long id) {
+    	
         return entityManager.find(Department.class, id);
     }
 

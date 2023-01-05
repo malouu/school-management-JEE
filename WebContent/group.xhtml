@@ -162,6 +162,20 @@
 
             <p:column exportable="false">
               <p:commandButton
+                class="ui-button-primary rounded-button"
+                icon="pi pi-eye"
+                update=":dialogs:manage-group-content"
+                oncomplete="PF('manageStudentsGroupDialog').show()"
+                styleClass="edit-button rounded-button ui-button-success"
+                process="@this"
+              >
+                <f:setPropertyActionListener
+                  value="#{group}"
+                  target="#{groupMB.selectedStudentsGroup}"
+                />
+                <p:resetInput target=":dialogs:manage-group-content" />
+              </p:commandButton>
+              <p:commandButton
                 icon="pi pi-pencil"
                 update=":dialogs:manage-group-content"
                 oncomplete="PF('manageStudentsGroupDialog').show()"
