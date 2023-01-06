@@ -71,13 +71,13 @@ public class StudentsGroup implements Serializable {
 		// TODO Auto-generated method stub
 		return this.coursesGroups;
 	}
-
-	public List<Course> getCourses() {
-		// coursesGroups contains a list of coursesGroups. Each coursesGroup contains a
-		// list of courses. Flatten the list of coursesGroups into a list of courses.
-		return this.coursesGroups.stream().map(cg -> cg.getCourses()).flatMap(c -> c.stream())
-				.collect(Collectors.toList());
-	}
+//
+//	public List<Course> getCourses() {
+//		// coursesGroups contains a list of coursesGroups. Each coursesGroup contains a
+//		// list of courses. Flatten the list of coursesGroups into a list of courses.
+//		return this.coursesGroups.stream().map(cg -> cg.getCourses()).flatMap(c -> c.stream())
+//				.collect(Collectors.toList());
+//	}
 
 	@Override
 	public String toString() {

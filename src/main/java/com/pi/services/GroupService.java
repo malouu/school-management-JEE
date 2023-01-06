@@ -49,5 +49,9 @@ public class GroupService {
         this.gp = gp;
     }
 
+    public List<Course> getCourses() {
+        return gp.getCoursesGroups().stream().map(cg -> cg.getCourses()).flatMap(c -> c.stream())
+                .collect(Collectors.toList());
+    }
 
 }
