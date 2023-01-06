@@ -28,18 +28,23 @@ public class CoursesGroup implements Serializable {
     private String name;
     private String coef;
     
+    @ManyToMany 
+    @JoinTable( name = "T_Courses_CoursesGrp_Associations",
+    joinColumns = @JoinColumn( name = "id_CoursesGrp" ),
+    inverseJoinColumns = @JoinColumn( name = "id_Course" ) )
+    private List<Course>courses;
     
     @ManyToMany 
     @JoinTable( name = "T_Dept_CoursesGrp_Associations",
     joinColumns = @JoinColumn( name = "id_CoursesGrp" ),
     inverseJoinColumns = @JoinColumn( name = "id_Dept" ) )
-    private List<Department>Department;
+    private List<Department>department;
     
     @ManyToMany 
     @JoinTable( name = "T_GRP_CoursesGrp_Associations",
     joinColumns = @JoinColumn( name = "id_CoursesGrp" ),
     inverseJoinColumns = @JoinColumn( name = "id_GRP" ) )
-    private List<StudentsGroup>StudentsGroup;
+    private List<StudentsGroup>studentsGroup;
   
 
    
@@ -61,6 +66,10 @@ public class CoursesGroup implements Serializable {
 		return id_CoursesGrp;
 	}
     
+	public List<Course> getCourses()
+	{
+		return courses;
+	}
     
     
 

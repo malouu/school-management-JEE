@@ -5,10 +5,12 @@ import com.pi.entities.Student;
 import com.pi.entities.Grade;
 import com.pi.entities.Course;
 import java.util.List;
+import java.pi.services.GroupService;
 
 public class StudentService {
 	private final StudentDao stDao;
 	private Student student;
+	private GroupService groupService;
 
 	public StudentService(StudentDao stDao) {
 		this.stDao = stDao;
@@ -51,7 +53,8 @@ public class StudentService {
 	public float calculateAverage() {
 		float average = 0;
 		float coef = 0;
-		List<Course> courses = student.getGroup().getCourses();
+		groupService.setGroup(student.getGroup());
+		List<Course> courses = groupService.getCourses();
 		for (Course course : courses) {
 			average += calculateCourseAverage(course) * course.getCoef();
 			coef += course.getCoef();
@@ -59,4 +62,19 @@ public class StudentService {
 		return average / coef;
 	}
 
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+	public GroupService getGroupService() {
+		return groupService;
+	}
+
+	public void setGroupService(GroupService groupService) {
+		this.groupService = groupService;
+	}
 }

@@ -1,7 +1,9 @@
 package com.pi.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,33 +24,25 @@ public class StudentsGroup implements Serializable {
 	private int id_GRP;
 	private String name;
 	private String level;
-	
-	@ManyToMany 
-	@JoinTable( name = "T_GRP_CoursesGrp_Associations",
-		    joinColumns = @JoinColumn( name = "id_GRP" ),
-		    inverseJoinColumns = @JoinColumn( name = "id_CoursesGrp" ) )
-		    private List<CoursesGroup> CoursesGroup;
-	
-	 @ManyToOne
-	 @JoinColumn (name="dept_ID")
-	
-	private Department department;
-	
 
-	
-	@OneToMany (mappedBy="group") //sans (mappedBy="d") une table intermédiare 
-	//departement_employee sera créée
-	
-	
+	@ManyToMany
+	@JoinTable(name = "T_GRP_CoursesGrp_Associations", joinColumns = @JoinColumn(name = "id_GRP"), inverseJoinColumns = @JoinColumn(name = "id_CoursesGrp"))
+	private List<CoursesGroup> coursesGroups;
+
+	@ManyToOne
+	@JoinColumn(name = "dept_ID")
+
+	private Department department;
+
+	@OneToMany(mappedBy = "group") // sans (mappedBy="d") une table intermédiare
+	// departement_employee sera créée
+
 	private List<Student> students;
-	
-	
 
 	public StudentsGroup() {
 		// TODO Auto-generated constructor stub
 	}
 
-	
 	public int getId() {
 		return id_GRP;
 	}
@@ -64,7 +58,6 @@ public class StudentsGroup implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 
 	public String getLevel() {
 		return level;
@@ -72,6 +65,18 @@ public class StudentsGroup implements Serializable {
 
 	public void setLevel(String level) {
 		this.level = level;
+	}
+
+	public List<CoursesGroup> getCoursesGroups() {
+		// TODO Auto-generated method stub
+		return this.coursesGroups;
+	}
+
+	public List<Course> getCourses() {
+		// coursesGroups contains a list of coursesGroups. Each coursesGroup contains a
+		// list of courses. Flatten the list of coursesGroups into a list of courses.
+		return this.coursesGroups.stream().map(cg -> cg.getCourses()).flatMap(c -> c.stream())
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -99,7 +104,7 @@ public class StudentsGroup implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		StudentsGroup other = (StudentsGroup) obj;
-		if (id_GRP!= other.id_GRP)
+		if (id_GRP != other.id_GRP)
 			return false;
 		if (level == null) {
 			if (other.level != null)

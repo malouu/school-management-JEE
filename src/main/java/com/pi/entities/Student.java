@@ -29,7 +29,7 @@ public class Student implements Serializable {
 
     @OneToMany (mappedBy="student") 
     //sans (mappedBy="d") une table intermédiare departement_employee sera crée
-	private List<Grade> Grade;
+	private List<Grade> grades;
 
 	@ManyToOne
 	@JoinColumn(name = "GRP_ID")
@@ -84,9 +84,7 @@ public class Student implements Serializable {
 	}
 
 	public List<Grade> getGrades(){
-		return null;
-		
-			// TODO fix this
+		return grades;
 	}
 
 	
