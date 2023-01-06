@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+>
+
+  <f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
+    <f:metadata>
+      <f:viewAction action="#{studentMB.initDataTable}" />
+    </f:metadata>
+    <h:head> </h:head>
+    <h:body>
+      <h:form>
+        <p:menubar style="background-color: tomato">
+          <f:facet name="options">
+            <p:button
+              styleClass=" ui-button-flat"
+              style="color: white"
+              value="Groups"
+            />
+            <p:button
+              styleClass=" ui-button-flat"
+              style="color: white"
+              value="Teachers"
+            />
+            <p:button
+              styleClass=" ui-button-flat"
+              style="color: white"
+              value="Settings"
+              icon="pi pi-fw pi-cog"
+            />
+            <p:button
+              styleClass="ui-button-flat"
+              style="color: white"
+              value="Logout"
+              icon="pi pi-fw pi-sign-out"
+            />
+          </f:facet>
+        </p:menubar>
+        <br />
+        <div class="card">
+    <h:form >
+        <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+
+        <p:panel header="Group Grade Managememt" style="margin-bottom:10px;">
+        <div style="display: flex; flex-direction: row; align-items:center">
+            <h:panelGrid columns="2" cellpadding="3" >
+                <p:outputLabel for="country" value="Course: "/>
+                <p:selectOneMenu id="country" value="#{basicView.country}" style="width:150px">
+                    
+                    <f:selectItem itemLabel="Select Course" itemValue="" noSelectionOption="true"/>
+                   <f:selectItems value="#{basicView.countries}"/>
+                </p:selectOneMenu>
+
+            </h:panelGrid>
+
+            <p:button value="Manage Grade" outcome="malek" update="msgs" action="#{basicView.displayLocation}"
+             style="margin-left:20px;" styleClass="ui-button-secondary" icon="pi pi-check" >
+               <f:param name="code" value="#{student.subscription_number}" />
+             </p:button>
+               <p:button value="Manage Grade" outcome="malek" update="msgs" action="#{basicView.displayLocation}"
+             style="margin-left:895px;" styleClass="ui-button-secondary" icon="pi pi-check" >
+               <f:param name="code" value="#{student.subscription_number}" />
+             </p:button>
+             
+         </div>
+         
+        </p:panel>
+    </h:form>
+</div>
+      </h:form>
+
+      <div class="card crud-demo">
+        <h:form id="form">
+          <p:growl id="messages" showDetail="true" />
+
+          <p:toolbar>
+            <p:toolbarGroup>
+              <p:commandButton
+                value="New"
+                icon="pi pi-plus"
+                actionListener="#{studentMB.openNew}"
+                update=":dialogs:manage-student-content"
+                oncomplete="PF('manageStudentDialog').show()"
+                styleClass="ui-button-success"
+                style="margin-right: 0.5rem"
+              >
+                <p:resetInput target=":dialogs:manage-student-content" />
+              </p:commandButton>
+              <p:commandButton
+                id="delete-students-button"
+                value="#{studentMB.deleteButtonMessage}"
+                icon="pi pi-trash"
+                actionListener="#{studentMB.deleteSelectedStudents}"
+                styleClass="ui-button-danger"
+                disabled="#{studentMB.hasnotSelectedStudents()}"
+                update="@this"
+              >
+                <p:confirm
+                  header="Confirmation"
+                  message="Delete the selected students?"
+                  icon="pi pi-exclamation-triangle"
+                />
+              </p:commandButton>
+            </p:toolbarGroup>
+            <p:toolbarGroup align="right">
+              <p:commandButton
+                value="Export"
+                icon="pi pi-upload"
+                styleClass="ui-button-help"
+                ajax="false"
+              >
+                <p:dataExporter
+                  type="pdf"
+                  target="dt-students"
+                  fileName="students"
+                />
+              </p:commandButton>
+            </p:toolbarGroup>
+          </p:toolbar>
+
+          <p:dataTable
+            id="dt-students"
+            widgetVar="dtStudents"
+            var="student"
+            value="#{studentMB.students}"
+            reflow="true"
+            styleClass="students-table"
+            selection="#{studentMB.selectedStudents}"
+            rowKey="#{student.subscription_number}"
+            paginator="true"
+            rows="10"
+            rowSelectMode="add"
+            paginatorPosition="bottom"
+            emptyMessage="No students found with the given criteria."
+          >
+            <f:facet name="header">
+              <div class="students-table-header">
+                <span style="font-weight: bold">STUDENTS</span>
+                <span
+                  class="filter-container ui-input-icon-left flex justify-content-end"
+                >
+                  <i class="pi pi-search"></i>
+                  <p:inputText
+                    id="globalFilter"
+                    onkeyup="PF('dtStudents').filter()"
+                    placeholder="Search"
+                  />
+                </span>
+              </div>
+            </f:facet>
+
+            <p:ajax event="rowSelect" update=":form:delete-students-button" />
+            <p:ajax event="rowUnselect" update=":form:delete-students-button" />
+            <p:ajax
+              event="rowSelectCheckbox"
+              update=":form:delete-students-button"
+            />
+            <p:ajax
+              event="rowUnselectCheckbox"
+              update=":form:delete-students-button"
+            />
+            <p:ajax
+              event="toggleSelect"
+              update=":form:delete-students-button"
+            />
+
+            <p:column selectionMode="multiple" exportable="false"></p:column>
+
+            <p:column
+              headerText="Subscription Number"
+              field="subscription_number"
+              sortBy="#{student.subscription_number}"
+              filterBy="#{student.subscription_number}"
+              filterStyle="display: none"
+              filtrable="false"
+            >
+              <h:outputText value="#{student.subscription_number}" />
+            </p:column>
+            <p:column
+              headerText="Name"
+              field="name"
+              sortBy="#{student.name}"
+              filterBy="#{student.name}"
+              filterStyle="display: none"
+              filtrable="false"
+            >
+              <h:outputText value="#{student.name}" />
+            </p:column>
+
+            <p:column
+              headerText="Surname"
+              field="surname"
+              sortBy="#{student.surname}"
+              filterBy="#{student.surname}"
+              filterStyle="display: none"
+              filtrable="false"
+            >
+              <h:outputText value="#{student.surname}" />
+            </p:column>
+
+            <p:column
+              headerText="Email"
+              field="email"
+              sortBy="#{student.email}"
+              filterBy="#{student.email}"
+              filterStyle="display: none"
+              filtrable="false"
+            >
+              <h:outputText value="#{student.email}" />
+            </p:column>
+
+            <p:column
+              headerText="Phone Number"
+              field="phone_number"
+              sortBy="#{student.phone_number}"
+              filterBy="#{student.phone_number}"
+              filterStyle="display: none"
+              filtrable="false"
+            >
+              <h:outputText value="#{student.phone_number}" />
+            </p:column>
+
+            <p:column exportable="false">
+              <p:commandButton
+                icon="pi pi-pencil"
+                update=":dialogs:manage-student-content"
+                oncomplete="PF('manageStudentDialog').show()"
+                styleClass="edit-button rounded-button ui-button-success"
+                process="@this"
+              >
+                <f:setPropertyActionListener
+                  value="#{student}"
+                  target="#{studentMB.selectedStudent}"
+                />
+                <p:resetInput target=":dialogs:manage-student-content" />
+              </p:commandButton>
+              <p:commandButton
+                class="ui-button-warning rounded-button"
+                icon="pi pi-trash"
+                process="@this"
+                oncomplete="PF('deleteStudentDialog').show()"
+              >
+                <f:setPropertyActionListener
+                  value="#{student}"
+                  target="#{studentMB.selectedStudent}"
+                />
+              </p:commandButton>
+            </p:column>
+          </p:dataTable>
+        </h:form>
+
+        <h:form id="dialogs">
+          <p:dialog
+            header="Student Details"
+            showEffect="fade"
+            modal="true"
+            widgetVar="manageStudentDialog"
+            responsive="true"
+          >
+            <p:outputPanel id="manage-student-content" class="ui-fluid">
+              <p:outputPanel rendered="#{not empty studentMB.selectedStudent}">
+                <div class="field">
+                  <p:outputLabel for="name">Name</p:outputLabel>
+                  <p:inputText
+                    id="name"
+                    value="#{studentMB.selectedStudent.name}"
+                    required="true"
+                  />
+                </div>
+                <div class="field">
+                  <p:outputLabel for="name">Surname</p:outputLabel>
+                  <p:inputText
+                    id="surname"
+                    value="#{studentMB.selectedStudent.surname}"
+                    required="true"
+                  />
+                </div>
+                <div class="field">
+                  <p:outputLabel for="name">Email</p:outputLabel>
+                  <p:inputText
+                    id="email"
+                    value="#{studentMB.selectedStudent.email}"
+                    required="true"
+                  />
+                </div>
+                <div class="field">
+                  <p:outputLabel for="name">Phone Number</p:outputLabel>
+                  <p:inputText
+                    id="phone_number"
+                    value="#{studentMB.selectedStudent.phone_number}"
+                    required="true"
+                  />
+                </div>
+              </p:outputPanel>
+            </p:outputPanel>
+
+            <f:facet name="footer">
+              <p:commandButton
+                value="Save"
+                icon="pi pi-check"
+                actionListener="#{studentMB.saveStudent}"
+                update="manage-student-content"
+                process="manage-student-content @this"
+              />
+              <p:commandButton
+                value="Cancel"
+                icon="pi pi-times"
+                onclick="PF('manageStudentDialog').hide()"
+                class="ui-button-secondary"
+                type="button"
+              />
+            </f:facet>
+          </p:dialog>
+
+          <p:confirmDialog
+            widgetVar="deleteStudentDialog"
+            showEffect="fade"
+            width="300"
+            message="Delete the student?"
+            header="Confirm"
+            severity="warn"
+          >
+            <p:commandButton
+              value="Yes"
+              icon="pi pi-check"
+              actionListener="#{studentMB.deleteStudent}"
+              process="@this"
+              update=":form:delete-students-button"
+              oncomplete="PF('deleteStudentDialog').hide()"
+            />
+            <p:commandButton
+              value="No"
+              type="button"
+              styleClass="ui-button-secondary"
+              icon="pi pi-times"
+              onclick="PF('deleteStudentDialog').hide()"
+            />
+          </p:confirmDialog>
+
+          <p:confirmDialog global="true" showEffect="fade" width="300">
+            <p:commandButton
+              value="Yes"
+              type="button"
+              styleClass="ui-confirmdialog-yes"
+              icon="pi pi-check"
+            />
+            <p:commandButton
+              value="No"
+              type="button"
+              styleClass="ui-confirmdialog-no ui-button-secondary"
+              icon="pi pi-times"
+            />
+          </p:confirmDialog>
+        </h:form>
+      </div>
+    </h:body>
+  </f:view>
+</html>
