@@ -27,7 +27,12 @@ public class Course implements Serializable{
     @OneToMany (mappedBy="course") 
     //sans (mappedBy="d") une table intermédiare departement_employee sera crée
 	private List<Grade> Grade;
-
+    
+    @ManyToMany 
+    @JoinTable( name = "T_GradeType_Courses_Associations",
+    joinColumns = @JoinColumn( name = "id_Course" ),
+    inverseJoinColumns = @JoinColumn( name = "id_GradeType" ) )
+    private List<GradeType> GradeType;
     
 	public String getName() {
 		return name;
