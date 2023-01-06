@@ -20,7 +20,7 @@ public class GradeType implements Serializable {
 	private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id_GrageType;
+    private Long id_GradeType;
     
     @ManyToMany 
     @JoinTable( name = "T_GradeType_Courses_Associations",
@@ -48,7 +48,7 @@ public class GradeType implements Serializable {
 	}
 
 	public Long getId() {
-		return id;
+		return id_GradeType;
 	}
     
     

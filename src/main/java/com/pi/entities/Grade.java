@@ -42,7 +42,7 @@ public class Grade implements Serializable {
 		this.coef = coef;
 	}
 	public Long getId() {
-		return id;
+		return id_Grade;
 	}
 	
 	
