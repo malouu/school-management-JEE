@@ -19,6 +19,7 @@ import com.pi.dao.StudentDao;
 import com.pi.entities.Student;
 import com.pi.entities.Grade;
 import com.pi.entities.Course;
+import com.pi.entities.GradeType;
 
 @ManagedBean(name = "gradesMB")
 @Named(value = "gradesMB")
@@ -27,6 +28,7 @@ import com.pi.entities.Course;
 public class GradesMB implements Serializable {
     private List<Student> students;
     private Course course = new Course();
+    private List<GradeType> gradeTypes;
 
     @Inject
     GradeDao gradeDao = new GradeDao();
@@ -35,10 +37,34 @@ public class GradesMB implements Serializable {
 
     public void initDataTable() {
         students = studentDao.getAllStudents();
+        gradeTypes.add(new GradeType("Midterm", 0.2));
+        gradeTypes.add(new GradeType("Project", 0.1));
+        gradeTypes.add(new GradeType("Final", 0.7));
+        course.setGradeTypes(gradeTypes);
     }
 
     public List<Student> getStudents() {
         return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public List<GradeType> getGradeTypes() {
+        return gradeTypes;
+    }
+
+    public void setGradeTypes(List<GradeType> gradeTypes) {
+        this.gradeTypes = gradeTypes;
     }
 
     public void onCellEdit(CellEditEvent event) {

@@ -12,24 +12,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-
 @Entity
 
 public class GradeType implements Serializable {
-	
+
 	private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id_GradeType;
-    
-    @ManyToMany 
-    @JoinTable( name = "T_GradeType_Courses_Associations",
-    joinColumns = @JoinColumn( name = "id_GrageType" ),
-    inverseJoinColumns = @JoinColumn( name = "id_Courses" ) )
-    private List<Course> Course;
-    private String name;
-    
-    private float coef;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id_GradeType;
+
+	@ManyToMany
+	@JoinTable(name = "T_GradeType_Courses_Associations", joinColumns = @JoinColumn(name = "id_GrageType"), inverseJoinColumns = @JoinColumn(name = "id_Courses"))
+	private List<Course> Course;
+	private String name;
+
+	private float coef;
 
 	public String getName() {
 		return name;
@@ -50,7 +47,5 @@ public class GradeType implements Serializable {
 	public Long getId() {
 		return id_GradeType;
 	}
-    
-    
 
 }
