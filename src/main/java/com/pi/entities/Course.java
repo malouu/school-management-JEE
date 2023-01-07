@@ -36,7 +36,7 @@ public class Course implements Serializable{
     @JoinTable( name = "T_GradeType_Courses_Associations",
     joinColumns = @JoinColumn( name = "id_Course" ),
     inverseJoinColumns = @JoinColumn( name = "id_GradeType" ) )
-    private List<GradeType> GradeType;
+    private List<GradeType> gradeTypes;
     
 	public String getName() {
 		return name;
@@ -52,6 +52,10 @@ public class Course implements Serializable{
 	}
 	public Long getId() {
 		return id_Course;
+	}
+	public void setGradeTypes(List<GradeType> gradeTypes) {
+		// TODO Auto-generated method stub
+		this.gradeTypes=gradeTypes;
 	}
     
     

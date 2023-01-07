@@ -47,5 +47,15 @@ public class GradeType implements Serializable {
 	public Long getId() {
 		return id_GradeType;
 	}
+	
+	public GradeType(String name, float coef)
+	{
+		this.name=name;
+		this.coef=coef;
+	}
+	public GradeType() {
+		this.name="";
+		this.coef=0;
+	}
 
 }

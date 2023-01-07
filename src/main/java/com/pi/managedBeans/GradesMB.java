@@ -1,6 +1,7 @@
 package com.pi.managedBeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
@@ -28,7 +29,7 @@ import com.pi.entities.GradeType;
 public class GradesMB implements Serializable {
     private List<Student> students;
     private Course course = new Course();
-    private List<GradeType> gradeTypes;
+    private List<GradeType> gradeTypes = new ArrayList<GradeType>();
 
     @Inject
     GradeDao gradeDao = new GradeDao();
@@ -37,9 +38,9 @@ public class GradesMB implements Serializable {
 
     public void initDataTable() {
         students = studentDao.getAllStudents();
-        gradeTypes.add(new GradeType("Midterm", 0.2));
-        gradeTypes.add(new GradeType("Project", 0.1));
-        gradeTypes.add(new GradeType("Final", 0.7));
+        gradeTypes.add(new GradeType("Midterm", (float) 0.2));
+        gradeTypes.add(new GradeType("Project", (float) 0.1));
+        gradeTypes.add(new GradeType("Final", (float) 0.7));
         course.setGradeTypes(gradeTypes);
     }
 
