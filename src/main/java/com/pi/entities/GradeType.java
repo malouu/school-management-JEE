@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 
@@ -25,6 +26,10 @@ public class GradeType implements Serializable {
 	@JoinTable(name = "T_GradeType_Courses_Associations", joinColumns = @JoinColumn(name = "id_GradeType"), inverseJoinColumns = @JoinColumn(name = "id_Course"))
 	private List<Course> Course;
 	private String name;
+	@OneToMany(mappedBy = "gradeType") // sans (mappedBy="d") une table intermédiare
+	// departement_employee sera créée
+
+	private List<Grade> grades;
 
 	private float coef;
 
