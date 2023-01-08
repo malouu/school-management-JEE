@@ -16,93 +16,146 @@
       <title>Grades</title>
     </h:head>
 
-    <h:form id="form">
-      <p:growl id="msgs" showDetail="true" />
+    <h:body>
+      <h:form>
+        <p:menubar style="background-color: tomato">
+          <f:facet name="options">
+            <p:button
+              styleClass=" ui-button-flat"
+              style="color: white"
+              value="Groups"
+            />
+            <p:button
+              styleClass=" ui-button-flat"
+              style="color: white"
+              value="Teachers"
+            />
+            <p:button
+              styleClass=" ui-button-flat"
+              style="color: white"
+              value="Settings"
+              icon="pi pi-fw pi-cog"
+            />
+            <p:button
+              styleClass="ui-button-flat"
+              style="color: white"
+              value="Logout"
+              icon="pi pi-fw pi-sign-out"
+            />
+          </f:facet>
+        </p:menubar>
+        <br />
+        <div class="card">
+          <h:form>
+            <p:growl
+              id="msgs"
+              showDetail="true"
+              skipDetailIfEqualsSummary="true"
+            />
+
+            <p:panel
+              header="Group Grade Managememt"
+              style="margin-bottom: 10px"
+            >
+              <div
+                style="display: flex; flex-direction: row; align-items: center"
+              >
+                <h:panelGrid columns="2" cellpadding="3">
+                  <p:outputLabel for="country" value="Course: " />
+                  <p:selectOneMenu id="country" value="" style="width: 150px">
+                    <f:selectItem
+                      itemLabel="Select Course"
+                      itemValue=""
+                      noSelectionOption="true"
+                    />
+                    <f:selectItems value="" />
+                  </p:selectOneMenu>
+                </h:panelGrid>
+
+                <p:button
+                  value="Manage Grade"
+                  outcome="malek"
+                  update="msgs"
+                  action=""
+                  style="margin-left: 20px"
+                  styleClass="ui-button-secondary"
+                  icon="pi pi-check"
+                >
+                  <f:param name="code" value="" />
+                </p:button>
+                <p:button
+                  value="Manage Grade"
+                  outcome="accueil"
+                  update="msgs"
+                  action=""
+                  style="margin-left: auto"
+                  styleClass="ui-button-secondary"
+                  icon="pi pi-check"
+                >
+                  <f:param name="code" value="" />
+                </p:button>
+              </div>
+            </p:panel>
+          </h:form>
+        </div>
+      </h:form>
       <div class="card">
-        <h5>Double click to edit grade</h5>
-        <p:dataTable
-          id="students"
-          var="student"
-          value="#{gradesMB.students}"
-          editable="true"
-          editMode="cell"
-          widgetVar="cellCars2"
-          editInitEvent="dblclick"
-          style="margin-bottom: 20px"
-        >
-          <p:ajax
-            event="cellEdit"
-            listener="#{gradesMB.onCellEdit}"
-            update=":form:msgs"
-          />
+        <h:form id="form">
+          <p:growl id="msgs" showDetail="true" />
+          <div class="card">
+            <h5>Double click to edit grade</h5>
+            <p:dataTable
+              id="students"
+              var="student"
+              value="#{gradesMB.students}"
+              editable="true"
+              editMode="cell"
+              widgetVar="cellCars2"
+              editInitEvent="dblclick"
+              style="margin-bottom: 20px"
+            >
+              <p:ajax
+                event="cellEdit"
+                listener="#{gradesMB.onCellEdit}"
+                update=":form:msgs"
+              />
 
-          <p:column headerText="Subscription Number">
-            <p:cellEditor>
-              <f:facet name="output">
+              <p:column headerText="Subscription Number">
                 <h:outputText value="#{student.subscription_number}" />
-              </f:facet>
-              <f:facet name="input">
-                <p:inputText
-                  id="modelInput3"
-                  value="#{student.subscription_number}"
-                  style="width: 100%"
-                />
-              </f:facet>
-            </p:cellEditor>
-          </p:column>
+              </p:column>
 
-          <p:column headerText="Name">
-            <p:cellEditor>
-              <f:facet name="output">
+              <p:column headerText="Name">
                 <h:outputText value="#{student.name}" />
-              </f:facet>
-              <f:facet name="input">
-                <p:inputText
-                  value="#{student.name}"
-                  style="width: 100%"
-                  label="Name"
-                />
-              </f:facet>
-            </p:cellEditor>
-          </p:column>
+              </p:column>
 
-          <p:column headerText="Surname">
-            <p:cellEditor>
-              <f:facet name="output">
+              <p:column headerText="Surname">
                 <h:outputText value="#{student.surname}" />
-              </f:facet>
-              <f:facet name="input">
-                <p:inputText
-                  value="#{student.surname}"
-                  style="width: 100%"
-                  label="Surname"
-                />
-              </f:facet>
-            </p:cellEditor>
-          </p:column>
+              </p:column>
 
-          <p:columns
-            value="#{gradesMB.columns}"
-            var="column"
-            headerText="#{column.header}"
-          >
-            <p:cellEditor>
-              <f:facet name="output">
-                <h:outputText
-                  value="#{gradesMB.studentService.getStudentCourseGradewithType(student,column.property).value}"
-                />
-              </f:facet>
-              <f:facet name="input">
-                <p:inputText
-                  value="#{gradesMB.studentService.getStudentCourseGradewithType(student,column.property).value}"
-                  style="width: 100%"
-                  label="Grade"
-                />
-              </f:facet>
-            </p:cellEditor>
-          </p:columns>
-        </p:dataTable>
+              <p:columns
+                value="#{gradesMB.columns}"
+                var="column"
+                headerText="#{column.header}"
+              >
+                <p:cellEditor>
+                  <f:facet name="output">
+                    <h:outputText
+                      value="#{gradesMB.studentService.getStudentCourseGradewithType(student,column.property).value}"
+                    />
+                  </f:facet>
+                  <f:facet name="input">
+                    <p:inputText
+                      value="#{gradesMB.studentService.getStudentCourseGradewithType(student,column.property).value}"
+                      style="width: 100%"
+                      label="Grade"
+                    />
+                  </f:facet>
+                </p:cellEditor>
+              </p:columns>
+            </p:dataTable>
+          </div>
+        </h:form>
       </div>
-    </h:form>
+    </h:body>
   </f:view>
 </html>

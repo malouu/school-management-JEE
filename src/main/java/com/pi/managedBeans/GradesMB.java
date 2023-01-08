@@ -116,6 +116,14 @@ public class GradesMB implements Serializable {
         Object oldValue = event.getOldValue();
         Object newValue = event.getNewValue();
 
+        // convert the newValue to a float
+        float newValueFloat = Float.parseFloat(newValue.toString());
+        // convert the oldValue to a float
+        float oldValueFloat = Float.parseFloat(oldValue.toString());
+
+        // System.out.println("oldValue: " + oldValueFloat);
+        // System.out.println("newValue: " + newValueFloat);
+
         // get the grade
         // Grade grade = (Grade) event.getSource();
         // print grade info
@@ -124,13 +132,14 @@ public class GradesMB implements Serializable {
         // grade.getValue());
 
         FacesContext context = FacesContext.getCurrentInstance();
+       
         Student student = context.getApplication().evaluateExpressionGet(context, "#{student}",
                 Student.class);
         GradeType gradeType = context.getApplication().evaluateExpressionGet(context,
                 "#{column.property}", GradeType.class);
 
         // print grade type info
-        System.out.println("GradeType: " + gradeType.getName());
+        // System.out.println("GradeType: " + gradeType.getName());
 
         // loop through the grades of the student and find the grade that matches the
         // grade type
@@ -142,14 +151,30 @@ public class GradesMB implements Serializable {
                 break;
             }
         }
-        System.out
-                .println("Grade: " + grade.getGradeType().getName() + " " + grade.getValue() + " id:" + grade.getId());
+        // System.out
+        // .println("Grade: " + grade.getGradeType().getName() + " " + grade.getValue()
+        // + " id:" + grade.getId());
         if (newValue != null && !newValue.equals(oldValue)) {
-            FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Cell Changed",
-                    "Old: " + oldValue + ", New:" + newValue);
-            FacesContext.getCurrentInstance().addMessage(null, msg);
-            // update the grade value
-            gradeDao.update(grade);
+            // if the newValue is greater than 20 or less than 0, show an error message
+            if (newValueFloat > 20 || newValueFloat < 0) {
+                // System.out.println("Error: Grade must be between 0 and 20");
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
+                        "Grade must be between 0 and 20");
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+                // preserve the old value
+                grade.setValue((int) oldValue);
+                // clear the input field
+            } else {
+                // update the grade value
+                gradeDao.update(grade);
+                // print the new grade value
+                // System.out.println("Grade: " + grade.getGradeType().getName() + " " +
+                // grade.getValue());
+                FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Grade Updated",
+                        "Old: " + oldValue + ", New:" + newValue);
+                FacesContext.getCurrentInstance().addMessage(null, msg);
+            }
+
         }
     }
 
