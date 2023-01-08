@@ -34,7 +34,7 @@ public class GradeTypeDao {
     }
 
     // get types by id
-    public GradeType getGradeTypeById(int id) {
+    public GradeType getGradeTypeById(long id) {
         return entityManager.find(GradeType.class, id);
     }
 

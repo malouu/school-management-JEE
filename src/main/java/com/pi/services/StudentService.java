@@ -102,25 +102,62 @@ public class StudentService {
 		// not empty, return the grade that has the same course and gradeType. If not,
 		// create a new grade with the course and gradeType for the student, give it a
 		// value of 0 and return it.
-		System.out.println("getStudentCourseGrade");
+		// System.out.println("getStudentCourseGrade");
+		System.out.println(s.toString());
+		GradeDao gradeDao = new GradeDao();
+		s.setGrades(gradeDao.getStudentCourseGrades(s, course));
+		// if student has grades show them
 
 		if (!s.getGrades().isEmpty()) {
 			// System.out.println("getStudentCourseGrade not empty");
 			for (Grade grade : s.getGrades()) {
-				if (grade.getCourse().equals(course) && grade.getGradeType().equals(gradeType)) {
+				if (grade.getGradeType().equals(gradeType)) {
+					// System.out.println(
+					// "**************************************************** grade found: " +
+					// grade.toString());
 					return grade;
 				}
 			}
+			// System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ type not found");
 		}
 		Grade grade = new Grade();
 		grade.setCourse(course);
 		grade.setGradeType(gradeType);
 		grade.setValue(0);
 		grade.setStudent(s);
-
+		// System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		// Grade created");
 		gradeDao.add(grade);
 		System.out.println(grade.toString());
 		s.addGrade(grade);
 		return grade;
+
+		// if (s.getGrades().isEmpty()) {
+		// Grade grade = new Grade();
+		// grade.setCourse(course);
+		// grade.setGradeType(gradeType);
+		// grade.setValue(-1);
+		// grade.setStudent(s);
+		// gradeDao.add(grade);
+		// s.addGrade(grade);
+		// return grade;
+		// }
+		// // find the grade that has the same gradeType
+		// for (Grade grade : s.getGrades()) {
+		// if (grade.getGradeType().equals(gradeType)) {
+		// return grade;
+		// }
+		// }
+		// // if the gradeType is not found, create a new grade with the gradeType and
+		// add
+		// // it to the student
+		// Grade grade = new Grade();
+		// grade.setCourse(course);
+		// grade.setGradeType(gradeType);
+		// grade.setValue(-1);
+		// grade.setStudent(s);
+		// gradeDao.add(grade);
+		// s.addGrade(grade);
+		// return grade;
 	}
 }

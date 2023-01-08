@@ -52,6 +52,7 @@ public class GradesMB implements Serializable {
 
         // only do the following once
         gradeTypes = gradeTypeDao.getAllGradeTypes();
+        course = courseDao.getCourseById(4);
         if (gradeTypes.isEmpty()) {
             gradeTypeDao.add(new GradeType("Exam", (float) 0.7));
             gradeTypeDao.add(new GradeType("Project", (float) 0.1));
@@ -60,13 +61,20 @@ public class GradesMB implements Serializable {
         }
 
         if (course == null) {
+            // System.out.println("course is null");
             course = new Course();
             course.setName("Java");
             course.setGradeTypes(gradeTypes);
             course.setCoef(2f);
             courseDao.add(course);
-            studentService.setCourse(course);
+
         }
+        if (course != null) {
+            // System.out.println("course is not null");
+            // System.out.println("course name: " + course.getName());
+            // System.out.println("course id: " + course.getId());
+        }
+        studentService.setCourse(course);
 
         // only populate the columns once using populateColumns()
         populateColumns();

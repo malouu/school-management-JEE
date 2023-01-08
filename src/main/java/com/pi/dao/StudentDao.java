@@ -30,6 +30,8 @@ public class StudentDao {
 	}
 
 	public void delete(Student student) {
+		GradeDao gradeDao = new GradeDao();
+		gradeDao.deleteStudentGrades(student);
 		entityManager.getTransaction().begin();
 		student = entityManager.merge(student);
 		entityManager.remove(student);

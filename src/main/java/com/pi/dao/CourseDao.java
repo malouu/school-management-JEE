@@ -31,12 +31,25 @@ public class CourseDao {
 
     // get course by id
     public Course getCourseById(int id) {
-        return entityManager.find(Course.class, id);
+        return entityManager.find(Course.class, (long)id);
     }
 
     // get all courses
     public List<Course> getAllCourses() {
         return entityManager.createQuery("select c from Course c").getResultList();
+    }
+
+    // main method get all courses
+    public static void main(String[] args) {
+        CourseDao courseDao = new CourseDao();
+        List<Course> courses = courseDao.getAllCourses();
+        for (Course course : courses) {
+            System.out.println(course.toString());
+        }
+
+        // get course that has id = 4 and print it
+        Course course = courseDao.getCourseById(4);
+        System.out.println(course.toString());
     }
 
 }

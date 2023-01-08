@@ -48,6 +48,39 @@ public class GradeDao {
         return entityManager.createQuery("select g from Grade g").getResultList();
     }
 
+    public List<Grade> getStudentGrades(Student student) {
+        return entityManager.createQuery("select g from Grade g where g.student = :student")
+                .setParameter("student", student)
+                .getResultList();
+    }
+
+    public List<Grade> getStudentCourseGrades(Student student, Course course) {
+        return entityManager.createQuery("select g from Grade g where g.student = :student and g.course = :course")
+                .setParameter("student", student)
+                .setParameter("course", course)
+                .getResultList();
+    }
+
+    public List<Grade> getCourseGrades(Course course) {
+        return entityManager.createQuery("select g from Grade g where g.course = :course")
+                .setParameter("course", course)
+                .getResultList();
+    }
+
+    public List<Grade> getGradeTypeGrades(GradeType gradeType) {
+        return entityManager.createQuery("select g from Grade g where g.gradeType = :gradeType")
+                .setParameter("gradeType", gradeType)
+                .getResultList();
+    }
+
+    // delete all grades of a student
+    public void deleteStudentGrades(Student student) {
+        List<Grade> grades = getStudentGrades(student);
+        for (Grade grade : grades) {
+            delete(grade);
+        }
+    }
+
     // main method for testing adding a new grade
     public static void main(String[] args) {
         GradeDao gradeDao = new GradeDao();

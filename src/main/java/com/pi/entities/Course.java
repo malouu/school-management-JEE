@@ -102,4 +102,10 @@ public class Course implements Serializable {
 		return true;
 	}
 
+	// to string
+	@Override
+	public String toString() {
+		return "Course [id_Course=" + id_Course + ", name=" + name + ", coef=" + coef + "]";
+	}
+
 }
