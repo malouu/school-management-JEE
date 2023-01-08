@@ -25,12 +25,12 @@ public class Grade implements Serializable {
 	private Student student;
 
 	@ManyToOne
-	@JoinColumn(name = "Course_ID")
+	@JoinColumn(name = "id_Course")
 	private Course course;
 
 	// grade has a single grade type
 	@ManyToOne
-	@JoinColumn(name = "GradeType_ID")
+	@JoinColumn(name = "id_GradeType")
 	private GradeType gradeType;
 
 	public int getValue() {
