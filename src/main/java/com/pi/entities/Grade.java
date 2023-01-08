@@ -19,7 +19,7 @@ public class Grade implements Serializable {
 	private Long id_Grade;
 
 	private int value;
-	private float coef;
+	
 	@ManyToOne
 	@JoinColumn(name = "Student_ID")
 	private Student student;
@@ -41,16 +41,43 @@ public class Grade implements Serializable {
 		this.value = value;
 	}
 
-	public float getCoef() {
-		return coef;
-	}
-
-	public void setCoef(float coef) {
-		this.coef = coef;
-	}
-
 	public Long getId() {
 		return id_Grade;
+	}
+
+	public void setId(Long id) {
+		this.id_Grade = id;
+	}
+
+	public Student getStudent() {
+		return student;
+	}
+
+	public void setStudent(Student student) {
+		this.student = student;
+	}
+
+	public Course getCourse() {
+		return course;
+	}
+
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+
+	public GradeType getGradeType() {
+		return gradeType;
+	}
+
+	public void setGradeType(GradeType gradeType) {
+		this.gradeType = gradeType;
+	}
+
+	// toString
+	@Override
+	public String toString() {
+		return "Grade [id_Grade=" + id_Grade + ", value=" + value + ", student=" + student + ", course=" + course
+				+ ", gradeType=" + gradeType + "]";
 	}
 
 }

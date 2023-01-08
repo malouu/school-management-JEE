@@ -14,50 +14,92 @@ import javax.persistence.OneToMany;
 
 @Entity
 
-public class Course implements Serializable{
-	
+public class Course implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id_Course;
-    
-    private String name;
-    private float coef;
-   
-    @OneToMany (mappedBy="course") 
-    //sans (mappedBy="d") une table intermédiare departement_employee sera crée
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id_Course;
+
+	private String name;
+	private float coef;
+
+	@OneToMany(mappedBy = "course")
+	// sans (mappedBy="d") une table intermédiare departement_employee sera crée
 	private List<Grade> Grade;
-    @ManyToMany 
-    @JoinTable( name = "T_Courses_CoursesGrp_Associations",
-    joinColumns = @JoinColumn( name = "id_Course" ),
-    inverseJoinColumns = @JoinColumn( name = "id_CoursesGrp" ) )
-    private List<CoursesGroup>CoursesGroups;
-    @ManyToMany 
-    @JoinTable( name = "T_GradeType_Courses_Associations",
-    joinColumns = @JoinColumn( name = "id_Course" ),
-    inverseJoinColumns = @JoinColumn( name = "id_GradeType" ) )
-    private List<GradeType> gradeTypes;
-    
+	@ManyToMany
+	@JoinTable(name = "T_Courses_CoursesGrp_Associations", joinColumns = @JoinColumn(name = "id_Course"), inverseJoinColumns = @JoinColumn(name = "id_CoursesGrp"))
+	private List<CoursesGroup> CoursesGroups;
+	@ManyToMany
+	@JoinTable(name = "T_GradeType_Courses_Associations", joinColumns = @JoinColumn(name = "id_Course"), inverseJoinColumns = @JoinColumn(name = "id_GradeType"))
+	private List<GradeType> gradeTypes;
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public float getCoef() {
 		return coef;
 	}
+
 	public void setCoef(float coef) {
 		this.coef = coef;
 	}
+
 	public Long getId() {
 		return id_Course;
 	}
-	public void setGradeTypes(List<GradeType> gradeTypes) {
-		// TODO Auto-generated method stub
-		this.gradeTypes=gradeTypes;
+
+	public void setId(Long id) {
+		this.id_Course = id;
 	}
-    
-    
+
+	public void setGradeTypes(List<GradeType> gradeTypes) {
+
+		this.gradeTypes = gradeTypes;
+	}
+
+	// equals. test on id, name and coef
+	@Override
+	// public boolean equals(Object obj) {
+	// if (obj == null) {
+	// return false;
+	// }
+	// if (!Course.class.isAssignableFrom(obj.getClass())) {
+	// return false;
+	// }
+	// final Course other = (Course) obj;
+	// if ((this.name == null) ? (other.name != null) :
+	// !this.name.equals(other.name)) {
+	// return false;
+	// }
+	// if (this.coef != other.coef) {
+	// return false;
+	// }
+	// if (this.id_Course != other.id_Course && (this.id_Course == null ||
+	// !this.id_Course.equals(other.id_Course))) {
+	// return false;
+	// }
+	// return true;
+	// }
+
+	// only test on id
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (!Course.class.isAssignableFrom(obj.getClass())) {
+			return false;
+		}
+		final Course other = (Course) obj;
+		if (this.id_Course != other.id_Course && (this.id_Course == null || !this.id_Course.equals(other.id_Course))) {
+			return false;
+		}
+		return true;
+	}
 
 }

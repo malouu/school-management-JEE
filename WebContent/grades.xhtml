@@ -32,19 +32,19 @@
         >
           <p:ajax
             event="cellEdit"
-            listener="#{grades.onCellEdit}"
+            listener="#{gradesMB.onCellEdit}"
             update=":form:msgs"
           />
 
           <p:column headerText="Subscription Number">
             <p:cellEditor>
               <f:facet name="output">
-                <h:outputText value="#{product.code}" />
+                <h:outputText value="#{student.subscription_number}" />
               </f:facet>
               <f:facet name="input">
                 <p:inputText
                   id="modelInput3"
-                  value="#{product.code}"
+                  value="#{student.subscription_number}"
                   style="width: 100%"
                 />
               </f:facet>
@@ -54,11 +54,11 @@
           <p:column headerText="Name">
             <p:cellEditor>
               <f:facet name="output">
-                <h:outputText value="#{product.name}" />
+                <h:outputText value="#{student.name}" />
               </f:facet>
               <f:facet name="input">
                 <p:inputText
-                  value="#{product.name}"
+                  value="#{student.name}"
                   style="width: 100%"
                   label="Name"
                 />
@@ -69,44 +69,40 @@
           <p:column headerText="Surname">
             <p:cellEditor>
               <f:facet name="output">
-                <h:outputText value="#{product.inventoryStatus}" />
+                <h:outputText value="#{student.surname}" />
               </f:facet>
               <f:facet name="input">
-                <h:selectOneMenu
-                  value="#{product.inventoryStatus}"
+                <p:inputText
+                  value="#{student.surname}"
                   style="width: 100%"
-                >
-                  <f:selectItems
-                    value="#{grades.inventoryStatusList}"
-                    var="status"
-                    itemLabel="#{status.text}"
-                    itemValue="#{status}"
-                  />
-                </h:selectOneMenu>
+                  label="Surname"
+                />
               </f:facet>
             </p:cellEditor>
           </p:column>
 
           <p:columns
-            value="#{gradesMB.gradeTypes}"
-            var="gradeType"
-            headerText="#{gradeType.name}"
+            value="#{gradesMB.columns}"
+            var="column"
+            headerText="#{column.header}"
           >
+            <p:cellEditor>
+              <f:facet name="output">
+                <h:outputText
+                  value="#{gradesMB.studentService.getStudentCourseGradewithType(student,column.property).value}"
+                />
+              </f:facet>
+              <f:facet name="input">
+                <p:inputText
+                  value="#{gradesMB.studentService.getStudentCourseGradewithType(student,column.property).value}"
+                  style="width: 100%"
+                  label="Grade"
+                />
+              </f:facet>
+            </p:cellEditor>
           </p:columns>
         </p:dataTable>
       </div>
-      <p:contextMenu for="products2" widgetVar="cMenu">
-        <p:menuitem
-          value="Edit Cell"
-          icon="pi pi-search"
-          onclick="PF('cellProducts').showCellEditor();return false;"
-        />
-        <p:menuitem
-          value="Hide Menu"
-          icon="pi pi-times"
-          onclick="PF('cMenu').hide()"
-        />
-      </p:contextMenu>
     </h:form>
   </f:view>
 </html>

@@ -22,7 +22,7 @@ public class GradeType implements Serializable {
 	private Long id_GradeType;
 
 	@ManyToMany
-	@JoinTable(name = "T_GradeType_Courses_Associations", joinColumns = @JoinColumn(name = "id_GrageType"), inverseJoinColumns = @JoinColumn(name = "id_Courses"))
+	@JoinTable(name = "T_GradeType_Courses_Associations", joinColumns = @JoinColumn(name = "id_GradeType"), inverseJoinColumns = @JoinColumn(name = "id_Course"))
 	private List<Course> Course;
 	private String name;
 
@@ -47,15 +47,37 @@ public class GradeType implements Serializable {
 	public Long getId() {
 		return id_GradeType;
 	}
-	
-	public GradeType(String name, float coef)
-	{
-		this.name=name;
-		this.coef=coef;
+
+	public GradeType(String name, float coef) {
+		this.name = name;
+		this.coef = coef;
 	}
+
 	public GradeType() {
-		this.name="";
-		this.coef=0;
+		this.name = "";
+		this.coef = 0;
+	}
+
+	@Override
+	public String toString() {
+		return "GradeType [id_GradeType=" + id_GradeType + ", name=" + name + ", coef=" + coef + "]";
+	}
+
+	// equals
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null) {
+			return false;
+		}
+		if (!GradeType.class.isAssignableFrom(obj.getClass())) {
+			return false;
+		}
+		final GradeType other = (GradeType) obj;
+		if ((this.id_GradeType == null) ? (other.id_GradeType != null)
+				: !this.id_GradeType.equals(other.id_GradeType)) {
+			return false;
+		}
+		return true;
 	}
 
 }

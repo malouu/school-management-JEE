@@ -25,10 +25,8 @@ public class Student implements Serializable {
 	private String email;
 	private String phone_number;
 
-	
-
-    @OneToMany (mappedBy="student") 
-    //sans (mappedBy="d") une table intermédiare departement_employee sera crée
+	@OneToMany(mappedBy = "student")
+	// sans (mappedBy="d") une table intermédiare departement_employee sera crée
 	private List<Grade> grades;
 
 	@ManyToOne
@@ -83,11 +81,19 @@ public class Student implements Serializable {
 		return group;
 	}
 
-	public List<Grade> getGrades(){
+	public List<Grade> getGrades() {
 		return grades;
 	}
 
-	
+	public void setGrades(List<Grade> grades) {
+		this.grades = grades;
+	}
+
+	// add a grade to the list of grades
+	public void addGrade(Grade grade) {
+		grades.add(grade);
+	}
+
 	@Override
 	public String toString() {
 		return "Student [subscription_number=" + subscription_number + ", name=" + name + ", surname=" + surname
@@ -139,5 +145,7 @@ public class Student implements Serializable {
 			return false;
 		return true;
 	}
+
+
 
 }
