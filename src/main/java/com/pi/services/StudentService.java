@@ -117,8 +117,9 @@ public class StudentService {
 		grade.setGradeType(gradeType);
 		grade.setValue(0);
 		grade.setStudent(s);
-		System.out.println(grade.toString());
+
 		gradeDao.add(grade);
+		System.out.println(grade.toString());
 		s.addGrade(grade);
 		return grade;
 	}

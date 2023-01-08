@@ -32,6 +32,8 @@ public class test {
 		stDao.add(s1);
 		stDao.add(s2);
 		
+		System.out.println(s1.toString());
+		
 		//affihcer la liste des etudiants
 		List<Student> sts= deptDao.getAllStudentsInGroup(grp1.getId());
 		
