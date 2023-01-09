@@ -45,10 +45,11 @@
           </f:facet>
         </p:menubar>
         <br />
+
         <div class="card">
-          <h:form>
+          <h:form id="form1">
             <p:growl
-              id="msgs"
+              id="msgss"
               showDetail="true"
               skipDetailIfEqualsSummary="true"
             />
@@ -61,38 +62,45 @@
                 style="display: flex; flex-direction: row; align-items: center"
               >
                 <h:panelGrid columns="2" cellpadding="3">
-                  <p:outputLabel for="country" value="Course: " />
-                  <p:selectOneMenu id="country" value="" style="width: 150px">
+                  <p:outputLabel for="courses" value="Course: " />
+
+                  <p:selectOneMenu
+                    id="courses"
+                    value="#{gradesMB.selectedCourse}"
+                    converter="selectOneMenuConverter"
+                    effect="fade"
+                    var="c"
+                    style="width: 150px"
+                  >
                     <f:selectItem
                       itemLabel="Select Course"
                       itemValue=""
                       noSelectionOption="true"
                     />
-                    <f:selectItems value="" />
+                    <f:selectItems
+                      value="#{gradesMB.coursesList}"
+                      var="course"
+                      itemLabel="#{course.name}"
+                      itemValue="#{course}"
+                    />
                   </p:selectOneMenu>
                 </h:panelGrid>
 
-                <p:button
+                <p:commandButton
                   value="Manage Grade"
-                  outcome="malek"
-                  update="msgs"
-                  action=""
                   style="margin-left: 20px"
                   styleClass="ui-button-secondary"
                   icon="pi pi-check"
-                >
-                  <f:param name="code" value="" />
-                </p:button>
+                />
+
                 <p:button
-                  value="Manage Grade"
-                  outcome="accueil"
-                  update="msgs"
-                  action=""
+                  value="Other Button"
+                  outcome="grades"
                   style="margin-left: auto"
                   styleClass="ui-button-secondary"
                   icon="pi pi-check"
                 >
-                  <f:param name="code" value="" />
+                  <f:param name="courseId" value="#{c.id}" />
                 </p:button>
               </div>
             </p:panel>
