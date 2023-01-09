@@ -46,6 +46,15 @@ public class GradesMB implements Serializable {
     private String test;
     private Map<String, String> testMap = new HashMap<String, String>();
     private Course selectedCourse;
+    private long selectedCourseId;
+
+    public long getSelectedCourseId() {
+        return selectedCourseId;
+    }
+
+    public void setSelectedCourseId(long selectedCourseId) {
+        this.selectedCourseId = selectedCourseId;
+    }
 
     public Course getSelectedCourse() {
         return selectedCourse;
@@ -56,11 +65,12 @@ public class GradesMB implements Serializable {
     }
 
     public List<Course> getCoursesList() {
-        System.out.println("?????????????????? courses list is empty " + coursesList.isEmpty());
+        System.out.println("?????????????????? courses list size  " + coursesList.size());
         return coursesList;
     }
 
     public void setCoursesList(List<Course> coursesList) {
+        System.out.println("?????????????????? set courses list size  " + coursesList.size());
         this.coursesList = coursesList;
     }
 
@@ -228,15 +238,18 @@ public class GradesMB implements Serializable {
     }
 
     public void displayCourse() {
-        System.out.println("Hello");
         FacesMessage msg;
 
-        if (course != null)
+        if (course != null) {
             msg = new FacesMessage("Selected", course.getName());
-        else
+        } else
             msg = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Invalid", "Course is not selected.");
 
         FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+
+    public void showCourse() {
+        System.out.println("%%%%%%%% " + this.course.toString());
     }
 
     public List<Student> getStudents() {
@@ -255,6 +268,7 @@ public class GradesMB implements Serializable {
     public void setCourse(Course course) {
         System.out.println("set course name: " + course.getName());
         this.course = course;
+        System.out.println("-------set course  " + this.course.toString());
     }
 
     public List<GradeType> getGradeTypes() {

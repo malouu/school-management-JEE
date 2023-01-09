@@ -17,101 +17,129 @@
     </h:head>
 
     <h:body>
-      <h:form>
-        <p:menubar style="background-color: tomato">
-          <f:facet name="options">
-            <p:button
-              styleClass=" ui-button-flat"
-              style="color: white"
-              value="Groups"
-            />
-            <p:button
-              styleClass=" ui-button-flat"
-              style="color: white"
-              value="Teachers"
-            />
-            <p:button
-              styleClass=" ui-button-flat"
-              style="color: white"
-              value="Settings"
-              icon="pi pi-fw pi-cog"
-            />
-            <p:button
-              styleClass="ui-button-flat"
-              style="color: white"
-              value="Logout"
-              icon="pi pi-fw pi-sign-out"
-            />
-          </f:facet>
-        </p:menubar>
-        <br />
+      <p:menubar style="background-color: tomato">
+        <f:facet name="options">
+          <p:button
+            styleClass=" ui-button-flat"
+            style="color: white"
+            value="Groups"
+          />
+          <p:button
+            styleClass=" ui-button-flat"
+            style="color: white"
+            value="Teachers"
+          />
+          <p:button
+            styleClass=" ui-button-flat"
+            style="color: white"
+            value="Settings"
+            icon="pi pi-fw pi-cog"
+          />
+          <p:button
+            styleClass="ui-button-flat"
+            style="color: white"
+            value="Logout"
+            icon="pi pi-fw pi-sign-out"
+          />
+        </f:facet>
+      </p:menubar>
+      <br />
 
-        <div class="card">
-          <h:form id="form1">
-            <p:growl
-              id="msgss"
-              showDetail="true"
-              skipDetailIfEqualsSummary="true"
-            />
+      <div class="card">
+        <h:form id="form1">
+          <p:growl
+            id="msgs"
+            showDetail="true"
+            skipDetailIfEqualsSummary="true"
+          />
 
-            <p:panel
-              header="Group Grade Managememt"
-              style="margin-bottom: 10px"
+          <p:panel header="Group Grade Managememt" style="margin-bottom: 10px">
+            <div
+              style="display: flex; flex-direction: row; align-items: center"
             >
-              <div
-                style="display: flex; flex-direction: row; align-items: center"
-              >
-                <h:panelGrid columns="2" cellpadding="3">
-                  <p:outputLabel for="courses" value="Course: " />
+              <h:panelGrid columns="2" cellpadding="3">
+                <p:outputLabel for="courses" value="Course: " />
 
-                  <p:selectOneMenu
-                    id="courses"
-                    value="#{gradesMB.selectedCourse}"
-                    converter="selectOneMenuConverter"
-                    effect="fade"
-                    var="c"
-                    style="width: 150px"
-                  >
-                    <f:selectItem
-                      itemLabel="Select Course"
-                      itemValue=""
-                      noSelectionOption="true"
-                    />
-                    <f:selectItems
-                      value="#{gradesMB.coursesList}"
-                      var="course"
-                      itemLabel="#{course.name}"
-                      itemValue="#{course}"
-                    />
-                  </p:selectOneMenu>
-                </h:panelGrid>
-
-                <p:commandButton
-                  value="Manage Grade"
-                  style="margin-left: 20px"
-                  styleClass="ui-button-secondary"
-                  icon="pi pi-check"
-                />
-
-                <p:button
-                  value="Other Button"
-                  outcome="grades"
-                  style="margin-left: auto"
-                  styleClass="ui-button-secondary"
-                  icon="pi pi-check"
+                <p:selectOneMenu
+                  id="courses"
+                  value="#{gradesMB.course}"
+                  converter="#{courseConverter}"
+                  style="width: 150px"
                 >
-                  <f:param name="courseId" value="#{c.id}" />
-                </p:button>
-              </div>
-            </p:panel>
-          </h:form>
-        </div>
-      </h:form>
+                  <f:selectItems
+                    value="#{gradesMB.courses}"
+                    var="course"
+                    itemLabel="#{course.name}"
+                    itemValue="#{course}"
+                  />
+                  <p:ajax
+                    event="change"
+                    update="send msgs"
+                    listener="#{gradesMB.displayCourse}"
+                  />
+                </p:selectOneMenu>
+              </h:panelGrid>
+              <p:commandButton
+                value="Submit"
+                style="margin-left: 20px"
+                styleClass="ui-button-secondary"
+                icon="pi pi-check"
+                update="send msgs :form:students :form:cn"
+                actionListener="#{gradesMB.displayCourse}"
+              />
+              <p:button
+                id="send"
+                value="Other Button"
+                outcome="grades"
+                style="margin-left: auto"
+                styleClass="ui-button-secondary"
+                icon="pi pi-check"
+              >
+                <f:param
+                  id="param"
+                  name="courseId"
+                  value="#{gradesMB.course.id}"
+                />
+              </p:button>
+            </div>
+          </p:panel>
+        </h:form>
+      </div>
+
+      <div class="field col-12 md:col-4">
+        <h:form>
+          <p:outputLabel for="@next" value="Basic" />
+          <p:selectOneMenu id="option" value="#{gradesMB.test}">
+            <f:selectItem itemLabel="Select One" itemValue="" />
+            <f:selectItem itemLabel="Option1" itemValue="1" />
+            <f:selectItem itemLabel="Option2" itemValue="2" />
+            <f:selectItem itemLabel="Option3" itemValue="3" />
+            <p:ajax event="change" update="@this" />
+            <f:facet name="footer">
+              <p:divider styleClass="mt-0" />
+              <h:outputText value="3 options" style="font-weight: bold" />
+            </f:facet>
+          </p:selectOneMenu>
+          <p:button
+            value="Submit"
+            outcome="grades"
+            style="margin-left: auto"
+            styleClass="ui-button-secondary"
+            icon="pi pi-check"
+          >
+            <f:param name="courseId" value="#{gradesMB.test}" />
+          </p:button>
+        </h:form>
+      </div>
+
+      <p:commandButton value="test" action="#{gradesMB.showCourse}" />
+
       <div class="card">
         <h:form id="form">
           <p:growl id="msgs" showDetail="true" />
           <div class="card">
             <h5>Double click to edit grade</h5>
+            <h:outputText id="cn" value="#{gradesMB.course.name}" />
             <p:dataTable
               id="students"
               var="student"

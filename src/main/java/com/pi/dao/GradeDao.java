@@ -3,6 +3,7 @@ package com.pi.dao;
 import java.util.List;
 
 import javax.faces.bean.ApplicationScoped;
+import javax.faces.bean.SessionScoped;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -14,7 +15,7 @@ import com.pi.entities.Student;
 import com.pi.utils.JPAutil;
 
 @Named
-@ApplicationScoped
+@SessionScoped
 public class GradeDao {
 
     private EntityManager entityManager = JPAutil.getEntityManager("SchoolManagement");

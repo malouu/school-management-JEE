@@ -38,16 +38,15 @@ public class Course implements Serializable, Comparable<Course> {
 	public String getName() {
 		return name;
 	}
-	
-	public Course()
-	{}
+
+	public Course() {
+	}
 
 	public Course(String name, float coef) {
 		super();
 		this.name = name;
 		this.coef = coef;
 	}
-
 
 	public void setName(String name) {
 		this.name = name;
@@ -121,7 +120,7 @@ public class Course implements Serializable, Comparable<Course> {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id_Course, name, coef);
+		return (id_Course != null) ? (getClass().hashCode() + id_Course.hashCode()) : super.hashCode();
 	}
 
 	@Override
