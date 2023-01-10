@@ -46,5 +46,13 @@ public class DepartmentDao {
                 Department.class).setParameter("name", "%" + name + "%").getResultList();
         return departments;
     }
+    //main 
+    public static void main(String[] args) {
+    	DepartmentDao departmentDao = new DepartmentDao();
+    	Department department = new Department();
+    	department.setName("Math");
+    	departmentDao.add(department);
+    }
 
 }
+

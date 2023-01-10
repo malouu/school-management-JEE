@@ -125,6 +125,7 @@ public class StudentMB implements Serializable {
     }
 
     public void saveStudent() {
+    	
         if (this.selectedStudent.getSubscription_number() == 0) {
             studentDao.add(this.selectedStudent);
             this.students.add(this.selectedStudent);

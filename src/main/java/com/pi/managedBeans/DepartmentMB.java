@@ -21,9 +21,9 @@ import com.pi.entities.Department;
 
 public class DepartmentMB implements Serializable {
     private Department department = new Department();
-    private Department selecteddepartment = new Department();
+    private Department selectedDepartment = new Department();
     private List<Department> departments;
-    private List<Department> selecteddepartments;
+    private List<Department> selectedDepartments;
 
     @Inject
     DepartmentDao departmentDao = new DepartmentDao();
@@ -34,12 +34,12 @@ public class DepartmentMB implements Serializable {
     }
 
     public String update() {
-        departmentDao.update(selecteddepartment);
+        departmentDao.update(selectedDepartment);
         return "department.xhtml?faces-redirect=true";
     }
 
     public String delete() {
-        departmentDao.delete(selecteddepartment);
+        departmentDao.delete(selectedDepartment);
         return "department.xhtml?faces-redirect=true";
     }
 
@@ -48,66 +48,66 @@ public class DepartmentMB implements Serializable {
     }
 
     public void initForm() {
-        int SubscrpNumber;
-        SubscrpNumber = Integer.parseInt(
+        int id;
+        id = Integer.parseInt(
                 FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("code"));
         Department department = new Department();
-        department = departmentDao.getDepartmentById(SubscrpNumber);
+        department = departmentDao.getDepartmentById(id);
         System.out.print(department.toString());
         if (department != null) {
-            this.selecteddepartment = department;
+            this.selectedDepartment = department;
         }
     }
 
-    public Department getdepartment() {
+    public Department getDepartment() {
         return department;
     }
 
-    public void setdepartment(Department department) {
+    public void setDepartment(Department department) {
         this.department = department;
     }
 
-    public List<Department> getdepartments() {
+    public List<Department> getDepartments() {
         return departments;
     }
 
-    public void setdepartments(List<Department> departments) {
+    public void setDepartments(List<Department> departments) {
         this.departments = departments;
     }
 
-    public Department getSelecteddepartment() {
-        return selecteddepartment;
+    public Department getSelectedDepartment() {
+        return selectedDepartment;
     }
 
-    public void setSelecteddepartment(Department selecteddepartment) {
-        this.selecteddepartment = selecteddepartment;
+    public void setSelectedDepartment(Department selectedDepartment) {
+        this.selectedDepartment = selectedDepartment;
     }
 
-    public List<Department> getSelecteddepartments() {
-        return selecteddepartments;
+    public List<Department> getSelectedDepartments() {
+        return selectedDepartments;
     }
 
-    public void setSelecteddepartments(List<Department> selecteddepartments) {
-        this.selecteddepartments = selecteddepartments;
+    public void setSelectedDepartments(List<Department> selectedDepartments) {
+        this.selectedDepartments = selectedDepartments;
     }
 
     public void openNew() {
-    	this.selecteddepartment= new Department();
+    	this.selectedDepartment= new Department();
     }
 
     
 
     public boolean hasSelectedDepartment() {
-        return this.selecteddepartment != null;
+        return this.selectedDepartment != null;
     }
 
     public boolean hasSelectedDepartments() {
-        return this.selecteddepartments != null && !this.selecteddepartments.isEmpty();
+        return this.selectedDepartments != null && !this.selectedDepartments.isEmpty();
     }
 
     public String getDeleteButtonMessage() {
         if (hasSelectedDepartments()) {
-            int size = this.selecteddepartments.size();
+            int size = this.selectedDepartments.size();
             return size > 1 ? size + " departments selected" : "1 department selected";
         }
 
@@ -115,43 +115,45 @@ public class DepartmentMB implements Serializable {
     }
 
     public void deleteSelectedDepartments() {
-        this.departments.removeAll(this.selecteddepartments);
-        for (Department department : this.selecteddepartments) {
+        this.departments.removeAll(this.selectedDepartments);
+        for (Department department : this.selectedDepartments) {
             departmentDao.delete(department);
         }
-        this.selecteddepartments = null;
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("departments Removed"));
+        this.selectedDepartments = null;
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Departments Removed"));
         PrimeFaces.current().ajax().update("form:messages", "form:dt-departments");
-        PrimeFaces.current().executeScript("PF('dtdepartments').clearFilters()");
+        PrimeFaces.current().executeScript("PF('dtDepartments').clearFilters()");
     }
 
     public void saveDepartment() {
-        if (this.selecteddepartment.getId() == 0) {
-            departmentDao.add(this.selecteddepartment);
-            this.departments.add(this.selecteddepartment);
+    	System.out.println(selectedDepartment.toString());
+        if (this.selectedDepartment.getId() == null) {
+            departmentDao.add(this.selectedDepartment);
+            this.departments.add(this.selectedDepartment);
             
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("department Added"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Department Added"));
         } else {
-            departmentDao.update(this.selecteddepartment);
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("department Updated"));
+            departmentDao.update(this.selectedDepartment);
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Department Updated"));
         }
 
-        PrimeFaces.current().executeScript("PF('managedepartmentDialog').hide()");
+        PrimeFaces.current().executeScript("PF('manageDepartmentDialog').hide()");
         PrimeFaces.current().ajax().update("form:messages", "form:dt-departments");
+        System.out.println("khalil!!!!");
         
     }
 
-    public void deletedepartment() {
-        departmentDao.delete(this.selecteddepartment);
-        this.departments.remove(this.selecteddepartment);
-        this.selecteddepartments.remove(this.selecteddepartment);
+    public void deleteDepartment() {
+        departmentDao.delete(this.selectedDepartment);
+        this.departments.remove(this.selectedDepartment);
+        this.selectedDepartments.remove(this.selectedDepartment);
         
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("department Removed"));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Department Removed"));
         PrimeFaces.current().ajax().update("form:messages", "form:dt-departments");
-        this.selecteddepartment = null;
+        this.selectedDepartment = null;
     }
 
-    public boolean hasnotSelecteddepartments() {
+    public boolean hasnotSelectedDepartments() {
         return !hasSelectedDepartments();
     }
 }
