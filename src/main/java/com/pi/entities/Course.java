@@ -2,6 +2,7 @@ package com.pi.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +15,7 @@ import javax.persistence.OneToMany;
 
 @Entity
 
-public class Course implements Serializable {
+public class Course implements Serializable, Comparable<Course> {
 
 	private static final long serialVersionUID = 1L;
 	@Id
@@ -26,7 +27,7 @@ public class Course implements Serializable {
 
 	@OneToMany(mappedBy = "course")
 	// sans (mappedBy="d") une table intermédiare departement_employee sera crée
-	private List<Grade> Grade;
+	private List<Grade> Grades;
 	@ManyToMany
 	@JoinTable(name = "T_Courses_CoursesGrp_Associations", joinColumns = @JoinColumn(name = "id_Course"), inverseJoinColumns = @JoinColumn(name = "id_CoursesGrp"))
 	private List<CoursesGroup> CoursesGroups;
@@ -36,6 +37,15 @@ public class Course implements Serializable {
 
 	public String getName() {
 		return name;
+	}
+
+	public Course() {
+	}
+
+	public Course(String name, float coef) {
+		super();
+		this.name = name;
+		this.coef = coef;
 	}
 
 	public void setName(String name) {
@@ -102,4 +112,19 @@ public class Course implements Serializable {
 		return true;
 	}
 
+	// to string
+	@Override
+	public String toString() {
+		return "Course [id_Course=" + id_Course + ", name=" + name + ", coef=" + coef + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return (id_Course != null) ? (getClass().hashCode() + id_Course.hashCode()) : super.hashCode();
+	}
+
+	@Override
+	public int compareTo(Course o) {
+		return this.name.compareTo(o.name);
+	}
 }
