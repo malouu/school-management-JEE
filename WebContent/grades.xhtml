@@ -79,19 +79,12 @@
                   />
                 </p:selectOneMenu>
               </h:panelGrid>
-              <p:commandButton
-                value="Submit"
-                style="margin-left: 20px"
-                styleClass="ui-button-secondary"
-                icon="pi pi-check"
-                update="send msgs :form:students :form:cn"
-                actionListener="#{gradesMB.displayCourse}"
-              />
+
               <p:button
                 id="send"
-                value="Other Button"
+                value="Manage Course Grades"
                 outcome="grades"
-                style="margin-left: auto"
+                style="margin-left: 20px"
                 styleClass="ui-button-secondary"
                 icon="pi pi-check"
               >
@@ -101,38 +94,18 @@
                   value="#{gradesMB.course.id}"
                 />
               </p:button>
+              <p:commandButton
+                value="Submit"
+                style="margin-left: auto"
+                styleClass="ui-button-secondary"
+                icon="pi pi-check"
+                update="send msgs :form:students :form:cn"
+                actionListener="#{gradesMB.displayCourse}"
+              />
             </div>
           </p:panel>
         </h:form>
       </div>
-
-      <div class="field col-12 md:col-4">
-        <h:form>
-          <p:outputLabel for="@next" value="Basic" />
-          <p:selectOneMenu id="option" value="#{gradesMB.test}">
-            <f:selectItem itemLabel="Select One" itemValue="" />
-            <f:selectItem itemLabel="Option1" itemValue="1" />
-            <f:selectItem itemLabel="Option2" itemValue="2" />
-            <f:selectItem itemLabel="Option3" itemValue="3" />
-            <p:ajax event="change" update="@this" />
-            <f:facet name="footer">
-              <p:divider styleClass="mt-0" />
-              <h:outputText value="3 options" style="font-weight: bold" />
-            </f:facet>
-          </p:selectOneMenu>
-          <p:button
-            value="Submit"
-            outcome="grades"
-            style="margin-left: auto"
-            styleClass="ui-button-secondary"
-            icon="pi pi-check"
-          >
-            <f:param name="courseId" value="#{gradesMB.test}" />
-          </p:button>
-        </h:form>
-      </div>
-
-      <p:commandButton value="test" action="#{gradesMB.showCourse}" />
 
       <div class="card">
         <h:form id="form">
