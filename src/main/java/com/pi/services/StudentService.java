@@ -49,16 +49,22 @@ public class StudentService {
 		throw new RuntimeException("Student does not exist, The ID was not found in the database");
 	}
 
-	public float calculateCourseAverage(Course course) {
+	public float calculateCourseAverage() {
 		float average = 0;
 		List<Grade> grades = student.getGrades();
 
 		// filter grades by course
 		grades.removeIf(grade -> grade.getCourse().getId() != course.getId());
 		for (Grade grade : grades) {
+			System.out.println(grade.toString());
 			average += grade.getValue() * grade.getGradeType().getCoef();
 		}
-		return average / grades.size();
+		return average;
+	}
+
+	public float getStudentCourseAverage(Student s) {
+		student = s;
+		return calculateCourseAverage();
 	}
 
 	public float calculateAverage() {
@@ -67,7 +73,7 @@ public class StudentService {
 		groupService.setGroup(student.getGroup());
 		List<Course> courses = groupService.getCourses();
 		for (Course course : courses) {
-			average += calculateCourseAverage(course) * course.getCoef();
+			average += calculateCourseAverage() * course.getCoef();
 			coef += course.getCoef();
 		}
 		return average / coef;
