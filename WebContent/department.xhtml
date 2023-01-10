@@ -76,10 +76,10 @@
 
 
                         <p:column exportable="false">
-                         <p:commandButton icon="pi pi-eye" update=":dialogs:manage-department-content" oncomplete="PF('manageDepartmentDialog').show()" styleClass="edit-button rounded-button ui-button-primary" process="@this">
-                                <f:setPropertyActionListener value="#{department}" target="#{departmentMB.selectedDepartment}" />
-                                <p:resetInput target=":dialogs:manage-department-content" />
-                            </p:commandButton>
+                         <h:button icon="pi pi-eye" value="group" outcome="group" styleClass="edit-button rounded-button ui-button-primary" process="@this">
+ 
+                                <f:param name="code" value="#{department.id}"/>
+                            </h:button>
                             <p:commandButton icon="pi pi-pencil" update=":dialogs:manage-department-content" oncomplete="PF('manageDepartmentDialog').show()" styleClass="edit-button rounded-button ui-button-success" process="@this">
                                 <f:setPropertyActionListener value="#{department}" target="#{departmentMB.selectedDepartment}" />
                                 <p:resetInput target=":dialogs:manage-department-content" />

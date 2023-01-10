@@ -66,6 +66,11 @@ public class StudentsGroup implements Serializable {
 	public void setLevel(String level) {
 		this.level = level;
 	}
+	// set dept
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
 
 	public List<CoursesGroup> getCoursesGroups() {
 		// TODO Auto-generated method stub

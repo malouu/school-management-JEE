@@ -7,6 +7,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import com.pi.entities.StudentsGroup;
+import com.pi.entities.Department;
 import com.pi.entities.Student;
 import com.pi.utils.JPAutil;
 
@@ -63,5 +64,31 @@ public class GroupDao {
 		return entityManager.createQuery("select s from Student s where s.group.id = :id").setParameter("id", id)
 				.getResultList();
 	}
+	//get studentsgroup by department id 
+	public List<StudentsGroup> getStudentsByDepartmentId(long id) {
+		
+
+		
+		return entityManager.createQuery("select * FROM StudentsGroup g where g.dept_ID ="+id).setParameter("id",id)
+				.getResultList();
+	}
+	//main method
+	public static void main(String[] args) {
+		//add department
+		DepartmentDao departmentDao = new DepartmentDao();
+		Department department = new Department();
+		department.setName("D1");
+
+		GroupDao groupDao = new GroupDao();
+		StudentsGroup studentsGroup = new StudentsGroup();
+		studentsGroup.setName("G1");
+		studentsGroup.setLevel("L1");
+		//set department 
+		studentsGroup.setDepartment(department);
+		groupDao.add(studentsGroup);
+		//test getStudentsByDepartmentId 
+		//System.out.println(groupDao.getStudentsByDepartmentId(1));
+	}
+
 
 }

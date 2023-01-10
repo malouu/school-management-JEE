@@ -13,7 +13,10 @@ import org.primefaces.PrimeFaces;
 
 import javax.faces.bean.ViewScoped;
 
+import com.pi.dao.DepartmentDao;
 import com.pi.dao.GroupDao;
+import com.pi.entities.Department;
+import com.pi.entities.Student;
 import com.pi.entities.StudentsGroup;
 
 @ManagedBean(name = "groupMB")
@@ -46,8 +49,14 @@ public class GroupMB implements Serializable {
         return "groups.xhtml?faces-redirect=true";
     }
 
-    public void initDataTable() {
-        studentsGroups = groupDao.getAllGroups();
+    public List<StudentsGroup> initDataTable() {
+        
+        String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("code");
+      
+        studentsGroups = groupDao.getStudentsByDepartmentId(Long.parseLong(id));
+        return (studentsGroups);
+
+
     }
 
     public void initForm() {
@@ -157,5 +166,5 @@ public class GroupMB implements Serializable {
         System.out.println(selectedStudentsGroups);
         return !hasSelectedStudentsGroups();
     }
-
+    
 }
