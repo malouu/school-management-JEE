@@ -46,7 +46,7 @@
       <br />
 
       <div class="card">
-        <h:form id="form1">
+        <h:form>
           <p:growl
             id="msgs"
             showDetail="true"
@@ -95,13 +95,18 @@
                 />
               </p:button>
               <p:commandButton
-                value="Submit"
                 style="margin-left: auto"
-                styleClass="ui-button-secondary"
-                icon="pi pi-check"
-                update="send msgs :form:students :form:cn"
-                actionListener="#{gradesMB.displayCourse}"
-              />
+                value="Export"
+                icon="pi pi-upload"
+                styleClass="ui-button-help"
+                ajax="false"
+              >
+                <p:dataExporter
+                  type="csv"
+                  target="form:dt-students"
+                  fileName="students-grades-#{gradesMB.course.name}"
+                />
+              </p:commandButton>
             </div>
           </p:panel>
         </h:form>
@@ -111,24 +116,25 @@
         <h:form id="form">
           <p:growl id="msgs" showDetail="true" />
           <div class="card">
-            <h5>Double click to edit grade</h5>
-            <h:outputText id="cn" value="#{gradesMB.course.name}" />
+            <h4>Double click to edit grade</h4>
+            <h:outputText
+              style="font-size: x-large"
+              id="cn"
+              value="#{gradesMB.course.name}"
+            />
             <p:dataTable
-              id="students"
+              id="dt-students"
+              widgetVar="dtStudents"
               var="student"
+              reflow="true"
+              styleClass="students-table"
               value="#{gradesMB.students}"
+              rowKey="#{student.subscription_number}"
               editable="true"
               editMode="cell"
-              widgetVar="cellCars2"
               editInitEvent="dblclick"
               style="margin-bottom: 20px"
             >
-              <p:ajax
-                event="cellEdit"
-                listener="#{gradesMB.onCellEdit}"
-                update=":form:msgs"
-              />
-
               <p:column headerText="Subscription Number">
                 <h:outputText value="#{student.subscription_number}" />
               </p:column>
@@ -161,6 +167,17 @@
                   </f:facet>
                 </p:cellEditor>
               </p:columns>
+              <p:column headerText="Course Average">
+                <h:outputText
+                  id="avg"
+                  value="#{gradesMB.studentService.getStudentCourseAverage(student)}"
+                />
+              </p:column>
+              <p:ajax
+                event="cellEdit"
+                listener="#{gradesMB.onCellEdit}"
+                update=":form:msgs form:dt-students"
+              />
             </p:dataTable>
           </div>
         </h:form>

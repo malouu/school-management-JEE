@@ -342,12 +342,18 @@ public class GradesMB implements Serializable {
             } else {
                 // update the grade value
                 gradeDao.update(grade);
+                // grab an element with id avg and update its value
+
                 // print the new grade value
                 // System.out.println("Grade: " + grade.getGradeType().getName() + " " +
                 // grade.getValue());
                 FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Grade Updated",
                         "Old: " + oldValue + ", New:" + newValue);
                 FacesContext.getCurrentInstance().addMessage(null, msg);
+                // update the average
+                PrimeFaces.current().executeScript("document.getElementById('form:students:" +
+                        event.getRowIndex() + ":avg').innerHTML = " + studentService.getStudentCourseAverage(student));
+
             }
 
         }
