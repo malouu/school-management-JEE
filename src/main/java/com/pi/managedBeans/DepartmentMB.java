@@ -146,7 +146,6 @@ public class DepartmentMB implements Serializable {
     public void deleteDepartment() {
         departmentDao.delete(this.selectedDepartment);
         this.departments.remove(this.selectedDepartment);
-        this.selectedDepartments.remove(this.selectedDepartment);
         
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Department Removed"));
         PrimeFaces.current().ajax().update("form:messages", "form:dt-departments");
