@@ -158,7 +158,6 @@ public class GroupMB implements Serializable {
     public void deleteStudentsGroup() {
         groupDao.delete(this.selectedStudentsGroup);
         this.studentsGroups.remove(this.selectedStudentsGroup);
-        this.selectedStudentsGroups.remove(this.selectedStudentsGroup);
 
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Students Group Removed"));
         PrimeFaces.current().ajax().update("form:messages", "form:dt-groups");
