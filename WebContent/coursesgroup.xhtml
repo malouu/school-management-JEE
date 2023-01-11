@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html
+  xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:h="http://xmlns.jcp.org/jsf/html"
+  xmlns:f="http://xmlns.jcp.org/jsf/core"
+  xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+  xmlns:p="http://primefaces.org/ui"
+>
+  <f:view contentType="text/html;charset=UTF-8" encoding="UTF-8">
+    <f:metadata>
+      <f:viewAction action="#{coursesGroupMB.initDataTable}" />
+    </f:metadata>
+    <h:head> </h:head>
+    <h:body>
+      <h:form>
+        <p:menubar style="background-color: tomato">
+          <f:facet name="options">
+            <p:button
+              styleClass=" ui-button-flat"
+              style="color: white"
+              value="Groups"
+            />
+            <p:button
+              styleClass=" ui-button-flat"
+              style="color: white"
+              value="Teachers"
+            />
+            <p:button
+              styleClass=" ui-button-flat"
+              style="color: white"
+              value="Settings"
+              icon="pi pi-fw pi-cog"
+            />
+            <p:button
+              styleClass="ui-button-flat"
+              style="color: white"
+              value="Logout"
+              icon="pi pi-fw pi-sign-out"
+            />
+          </f:facet>
+        </p:menubar>
+      </h:form>
+      <br />
+
+      <div class="card crud-demo">
+        <h:form id="form">
+          <p:growl id="messages" showDetail="true" />
+          <p:panel header="Courses groups List" style="margin-bottom: 10px">
+            <p:toolbar>
+              <p:toolbarGroup>
+                <p:commandButton
+                  value="New"
+                  icon="pi pi-plus"
+                  actionListener="#{coursesGroupMB.openNew}"
+                  update=":dialogs:manage-coursesGroup-content"
+                  oncomplete="PF('manageCoursesGroupDialog').show()"
+                  styleClass="ui-button-success"
+                  style="margin-right: 0.5rem"
+                >
+                  <p:resetInput target=":dialogs:manage-coursesGroup-content" />
+                </p:commandButton>
+                <p:commandButton
+                  id="delete-coursesGroups-button"
+                  value="#{coursesGroupMB.deleteButtonMessage}"
+                  icon="pi pi-trash"
+                  actionListener="#{coursesGroupMB.deleteSelectedCoursesGroups}"
+                  styleClass="ui-button-danger"
+                  disabled="#{coursesGroupMB.hasnotSelectedCoursesGroups()}"
+                  update="@this"
+                >
+                  <p:confirm
+                    header="Confirmation"
+                    message="Delete the selected courses groups?"
+                    icon="pi pi-exclamation-triangle"
+                  />
+                </p:commandButton>
+              </p:toolbarGroup>
+              <p:toolbarGroup align="right">
+                <p:commandButton
+                  value="Export"
+                  icon="pi pi-upload"
+                  styleClass="ui-button-help"
+                  ajax="false"
+                >
+                  <p:dataExporter
+                    type="pdf"
+                    target="dt-coursesGroups"
+                    fileName="coursesGroups"
+                  />
+                </p:commandButton>
+              </p:toolbarGroup>
+            </p:toolbar>
+
+            <p:dataTable
+              id="dt-coursesGroups"
+              widgetVar="dtCoursesGroups"
+              var="coursesGroup"
+              value="#{coursesGroupMB.coursesGroups}"
+              reflow="true"
+              styleClass="coursesGroups-table"
+              selection="#{coursesGroupMB.selectedCoursesGroups}"
+              rowKey="#{coursesGroup.id}"
+              paginator="true"
+              rows="10"
+              rowSelectMode="add"
+              paginatorPosition="bottom"
+              emptyMessage="No courses groups found with the given criteria."
+            >
+              <f:facet name="header">
+                <div class="departments-table-header">
+                  <span style="font-weight: bold">COURSES GROUPS</span>
+                  <span
+                    class="filter-container ui-input-icon-left flex justify-content-end"
+                  >
+                    <i class="pi pi-search"></i>
+                    <p:inputText
+                      id="globalFilter"
+                      onkeyup="PF('dtCoursesGroups').filter()"
+                      placeholder="Search"
+                    />
+                  </span>
+                </div>
+              </f:facet>
+
+              <p:ajax
+                event="rowSelect"
+                update=":form:delete-coursesGroups-button"
+              />
+              <p:ajax
+                event="rowUnselect"
+                update=":form:delete-coursesGroups-button"
+              />
+              <p:ajax
+                event="rowSelectCheckbox"
+                update=":form:delete-coursesGroups-button"
+              />
+              <p:ajax
+                event="rowUnselectCheckbox"
+                update=":form:delete-coursesGroups-button"
+              />
+              <p:ajax
+                event="toggleSelect"
+                update=":form:delete-coursesGroups-button"
+              />
+
+              <p:column selectionMode="multiple" exportable="false"></p:column>
+
+              <p:column
+                headerText="Courses Group ID"
+                field="id"
+                sortBy="#{coursesGroup.id}"
+                filterBy="#{coursesGroup.id}"
+                filterStyle="display: none"
+                filtrable="false"
+              >
+                <h:outputText value="#{coursesGroup.id}" />
+              </p:column>
+              <p:column
+                headerText="Name"
+                field="name"
+                sortBy="#{coursesGroup.name}"
+                filterBy="#{coursesGroup.name}"
+                filterStyle="display: none"
+                filtrable="false"
+              >
+                <h:outputText value="#{coursesGroup.name}" />
+              </p:column>
+              <p:column
+                headerText="Coef"
+                field="coef"
+                sortBy="#{coursesGroup.coef}"
+                filterBy="#{coursesGroup.coef}"
+                filterStyle="display: none"
+                filtrable="false"
+              >
+                <h:outputText value="#{coursesGroup.coef}" />
+              </p:column>
+
+              <p:column exportable="false">
+                <p:button
+                  icon="pi pi-eye"
+                  outcome="group"
+                  styleClass="rounded-button ui-button-primary"
+                  process="@this"
+                >
+                  <f:param name="code" value="#{coursesGroup.id}" />
+                </p:button>
+                <p:commandButton
+                  icon="pi pi-pencil"
+                  update=":dialogs:manage-coursesGroup-content"
+                  oncomplete="PF('manageCoursesGroupDialog').show()"
+                  styleClass="edit-button rounded-button ui-button-success"
+                  process="@this"
+                >
+                  <f:setPropertyActionListener
+                    value="#{coursesGroup}"
+                    target="#{coursesGroupMB.selectedCoursesGroup}"
+                  />
+                  <p:resetInput target=":dialogs:manage-coursesGroup-content" />
+                </p:commandButton>
+                <p:commandButton
+                  class="ui-button-warning rounded-button"
+                  icon="pi pi-trash"
+                  process="@this"
+                  oncomplete="PF('deleteCoursesGroupDialog').show()"
+                >
+                  <f:setPropertyActionListener
+                    value="#{coursesGroup}"
+                    target="#{coursesGroupMB.selectedCoursesGroup}"
+                  />
+                </p:commandButton>
+              </p:column>
+            </p:dataTable>
+          </p:panel>
+        </h:form>
+
+        <h:form id="dialogs">
+          <p:dialog
+            header="Courses group Details"
+            showEffect="fade"
+            modal="true"
+            widgetVar="manageCoursesGroupDialog"
+            responsive="true"
+          >
+            <p:outputPanel id="manage-coursesGroup-content" class="ui-fluid">
+              <p:outputPanel
+                rendered="#{not empty coursesGroupMB.selectedCoursesGroup}"
+              >
+                <div class="field">
+                  <p:outputLabel for="name">Name</p:outputLabel>
+                  <p:inputText
+                    id="name"
+                    value="#{coursesGroupMB.selectedCoursesGroup.name}"
+                    required="true"
+                  />
+                </div>
+                <div class="field">
+                  <p:outputLabel for="coef">Coef</p:outputLabel>
+                  <p:inputText
+                    id="coef"
+                    value="#{coursesGroupMB.selectedCoursesGroup.coef}"
+                    required="true"
+                  />
+                </div>
+              </p:outputPanel>
+            </p:outputPanel>
+
+            <f:facet name="footer">
+              <p:commandButton
+                value="Save"
+                icon="pi pi-check"
+                actionListener="#{coursesGroupMB.saveCoursesGroup}"
+                update="manage-department-content form:dt-coursesGroups form:messages"
+                process="manage-department-content @this"
+              />
+              <p:commandButton
+                value="Cancel"
+                icon="pi pi-times"
+                onclick="PF('manageCoursesGroupDialog').hide()"
+                class="ui-button-secondary"
+                type="button"
+              />
+            </f:facet>
+          </p:dialog>
+
+          <p:confirmDialog
+            widgetVar="deleteCoursesGroupDialog"
+            showEffect="fade"
+            width="300"
+            message="Delete this courses group?"
+            header="Confirm"
+            severity="warn"
+          >
+            <p:commandButton
+              value="Yes"
+              icon="pi pi-check"
+              actionListener="#{coursesGroupMB.deleteCoursesGroup}"
+              process="@this"
+              update=":form:delete-coursesGroups-button"
+              oncomplete="PF('deleteCoursesGroupDialog').hide()"
+            />
+            <p:commandButton
+              value="No"
+              type="button"
+              styleClass="ui-button-secondary"
+              icon="pi pi-times"
+              onclick="PF('deleteCoursesGroupDialog').hide()"
+            />
+          </p:confirmDialog>
+
+          <p:confirmDialog global="true" showEffect="fade" width="300">
+            <p:commandButton
+              value="Yes"
+              type="button"
+              styleClass="ui-confirmdialog-yes"
+              icon="pi pi-check"
+            />
+            <p:commandButton
+              value="No"
+              type="button"
+              styleClass="ui-confirmdialog-no ui-button-secondary"
+              icon="pi pi-times"
+            />
+          </p:confirmDialog>
+        </h:form>
+      </div>
+    </h:body>
+  </f:view>
+</html>
