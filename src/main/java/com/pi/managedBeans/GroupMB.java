@@ -33,6 +33,8 @@ public class GroupMB implements Serializable {
     @Inject
 
     GroupDao groupDao = new GroupDao();
+    Department department =new Department();
+    DepartmentDao deptDao = new DepartmentDao();
 
     public String add() {
         groupDao.add(studentsGroup);
@@ -52,7 +54,7 @@ public class GroupMB implements Serializable {
     public List<StudentsGroup> initDataTable() {
         
         String id = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("code");
-      
+        department=deptDao.getDepartmentById(Long.parseLong(id));
         studentsGroups = groupDao.getStudentsByDepartmentId(Long.parseLong(id));
         return (studentsGroups);
 
@@ -138,6 +140,7 @@ public class GroupMB implements Serializable {
     public void saveStudentsGroup() {
         System.out.println("saveStudentsGroup");
         if (this.selectedStudentsGroup.getId() == 0) {
+        	selectedStudentsGroup.setDepartment(department);
             groupDao.add(this.selectedStudentsGroup);
             this.studentsGroups.add(this.selectedStudentsGroup);
 
