@@ -69,26 +69,11 @@ public class GroupDao {
 		
 
 		
-		return entityManager.createQuery("select * FROM StudentsGroup g where g.dept_ID ="+id).setParameter("id",id)
+		return entityManager.createNativeQuery("select * from StudentsGroup g where g.dept_ID = ?id", StudentsGroup.class).setParameter("id",id)
 				.getResultList();
 	}
 	//main method
-	public static void main(String[] args) {
-		//add department
-		DepartmentDao departmentDao = new DepartmentDao();
-		Department department = new Department();
-		department.setName("D1");
-
-		GroupDao groupDao = new GroupDao();
-		StudentsGroup studentsGroup = new StudentsGroup();
-		studentsGroup.setName("G1");
-		studentsGroup.setLevel("L1");
-		//set department 
-		studentsGroup.setDepartment(department);
-		groupDao.add(studentsGroup);
-		//test getStudentsByDepartmentId 
-		//System.out.println(groupDao.getStudentsByDepartmentId(1));
-	}
+	
 
 
 }
