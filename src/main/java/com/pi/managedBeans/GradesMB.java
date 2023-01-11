@@ -28,7 +28,6 @@ import com.pi.entities.Grade;
 import com.pi.entities.Course;
 import com.pi.entities.GradeType;
 
-@SuppressWarnings({ "serial", "serial" })
 @ManagedBean(name = "gradesMB")
 @Named(value = "gradesMB")
 @ViewScoped
@@ -352,7 +351,7 @@ public class GradesMB implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 // update the average
                 PrimeFaces.current().executeScript("document.getElementById('form:dt-students:" +
-                        event.getRowIndex() + ":avg').innerHTML = " + studentService.getStudentCourseAverage(student));
+                        event.getRowIndex() + ":avg').innerHTML = " + avg(student));
 
             }
 
@@ -378,6 +377,11 @@ public class GradesMB implements Serializable {
 
     public void increment() {
         number++;
+    }
+
+    public float avg(Student student) {
+
+        return studentService.getStudentCourseAveragec(student, course);
     }
 
     static public class ColumnModel implements Serializable {

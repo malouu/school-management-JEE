@@ -94,6 +94,19 @@
                   value="#{gradesMB.course.id}"
                 />
               </p:button>
+              <p:button
+                value="Group PV"
+                outcome="pv"
+                style="margin-left: auto"
+                styleClass="ui-button-primary"
+                icon="pi pi-file"
+              >
+                <f:param
+                  id="param"
+                  name="groupId"
+                  value="#{groupMB.group.id}"
+                />
+              </p:button>
               <p:commandButton
                 style="margin-left: auto"
                 value="Export"
@@ -168,10 +181,7 @@
                 </p:cellEditor>
               </p:columns>
               <p:column headerText="Course Average">
-                <h:outputText
-                  id="avg"
-                  value="#{gradesMB.studentService.getStudentCourseAverage(student)}"
-                />
+                <h:outputText id="avg" value="#{gradesMB.avg(student)}" />
               </p:column>
               <p:ajax
                 event="cellEdit"

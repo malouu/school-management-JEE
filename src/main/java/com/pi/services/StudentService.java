@@ -1,5 +1,6 @@
 package com.pi.services;
 
+import com.pi.dao.CourseDao;
 import com.pi.dao.GradeDao;
 import com.pi.dao.StudentDao;
 import com.pi.entities.Student;
@@ -15,6 +16,7 @@ public class StudentService {
 	private GroupService groupService;
 	private Course course;
 	private GradeDao gradeDao = new GradeDao();
+	private CourseDao courseDao = new CourseDao();
 
 	public StudentService(StudentDao stDao) {
 		this.stDao = stDao;
@@ -59,12 +61,38 @@ public class StudentService {
 			System.out.println(grade.toString());
 			average += grade.getValue() * grade.getGradeType().getCoef();
 		}
+		System.out.println("-----------------------------" + "Average: " + average);
+		return average;
+	}
+
+	public float calculateCourseAveragec(Course c) {
+		float average = 0;
+		List<Grade> grades = student.getGrades();
+		System.out.println("-----------------------------");
+		System.out.println("Student: " + student.getName() + "||" + " Course: " + c.getName());
+
+		// only leave grades that have c as course
+
+		for (Grade grade : grades) {
+			System.out.println("+++++++++++++++++++++++" + grade.toString());
+			if (grade.getCourse().getId() == c.getId()) {
+				System.out.println(grade.toString());
+				average += grade.getValue() * grade.getGradeType().getCoef();
+			}
+		}
+		System.out.println("-----------------------------" + "Average: " + average);
 		return average;
 	}
 
 	public float getStudentCourseAverage(Student s) {
 		student = s;
 		return calculateCourseAverage();
+	}
+
+	public float getStudentCourseAveragec(Student s, Course c) {
+		this.student = s;
+		this.course = c;
+		return calculateCourseAveragec(c);
 	}
 
 	public float calculateAverage() {
@@ -77,6 +105,31 @@ public class StudentService {
 			coef += course.getCoef();
 		}
 		return average / coef;
+	}
+
+	public float calculateAveragee() {
+		float average = 0;
+		float coef = 0;
+		List<Course> courses = courseDao.getAllCourses();
+		for (Course c : courses) {
+			average += calculateCourseAveragec(c) * c.getCoef();
+			coef += c.getCoef();
+		}
+		return average / coef;
+	}
+
+	public float getStudentAverage(Student s) {
+		student = s;
+		return calculateAveragee();
+	}
+
+	public String getStudentFinalResult(Student s) {
+		student = s;
+		float average = calculateAveragee();
+		if (average >= 10) {
+			return "Approved";
+		}
+		return "Failed";
 	}
 
 	public Student getStudent() {
@@ -111,12 +164,13 @@ public class StudentService {
 		// System.out.println("getStudentCourseGrade");
 		System.out.println(s.toString());
 		GradeDao gradeDao = new GradeDao();
-		s.setGrades(gradeDao.getStudentCourseGrades(s, course));
+		List<Grade> grades = gradeDao.getStudentCourseGrades(s, course);
+
 		// if student has grades show them
 
-		if (!s.getGrades().isEmpty()) {
+		if (!grades.isEmpty()) {
 			// System.out.println("getStudentCourseGrade not empty");
-			for (Grade grade : s.getGrades()) {
+			for (Grade grade : grades) {
 				if (grade.getGradeType().equals(gradeType)) {
 					// System.out.println(
 					// "**************************************************** grade found: " +
