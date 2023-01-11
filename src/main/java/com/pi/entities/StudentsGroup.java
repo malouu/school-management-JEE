@@ -39,6 +39,14 @@ public class StudentsGroup implements Serializable {
 
 	private List<Student> students;
 
+	public List<Student> getStudents() {
+		return students;
+	}
+
+	public void setStudents(List<Student> students) {
+		this.students = students;
+	}
+
 	public StudentsGroup() {
 		// TODO Auto-generated constructor stub
 	}
@@ -125,5 +133,7 @@ public class StudentsGroup implements Serializable {
 			return false;
 		return true;
 	}
+
+	
 
 }

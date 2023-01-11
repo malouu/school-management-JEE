@@ -20,8 +20,10 @@ import javax.faces.bean.ViewScoped;
 import com.pi.dao.CourseDao;
 import com.pi.dao.GradeDao;
 import com.pi.dao.GradeTypeDao;
+import com.pi.dao.GroupDao;
 import com.pi.dao.StudentDao;
 import com.pi.entities.Student;
+import com.pi.entities.StudentsGroup;
 import com.pi.services.CourseService;
 import com.pi.services.StudentService;
 import com.pi.entities.Grade;
@@ -46,6 +48,7 @@ public class GradesMB implements Serializable {
     private Map<String, String> testMap = new HashMap<String, String>();
     private Course selectedCourse;
     private long selectedCourseId;
+    private StudentsGroup group;
 
     public long getSelectedCourseId() {
         return selectedCourseId;
@@ -171,6 +174,8 @@ public class GradesMB implements Serializable {
     GradeTypeDao gradeTypeDao = new GradeTypeDao();
     @Inject
     CourseDao courseDao = new CourseDao();
+    @Inject
+    GroupDao groupDao = new GroupDao();
 
     public void initDataTable() {
 
@@ -178,7 +183,17 @@ public class GradesMB implements Serializable {
         testMap.put("Malek2", "2");
         testMap.put("Malek3", "3");
 
-        students = studentDao.getAllStudents();
+        int groupId;
+        if (FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("groupId") != null) {
+            groupId = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+                    .get("groupId"));
+            System.out.println("::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::");
+            System.out.println("groupId: " + groupId);
+            group = groupDao.getGroupById(groupId);
+            students = group.getStudents();
+        } else {
+            students = studentDao.getAllStudents();
+        }
         int courseId;
         if (FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("courseId") != null) {
             courseId = Integer.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
