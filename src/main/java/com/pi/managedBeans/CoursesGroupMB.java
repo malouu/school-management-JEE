@@ -17,17 +17,23 @@ import com.pi.dao.CoursesGroupDao;
 import com.pi.entities.CoursesGroup;
 
 @ManagedBean(name = "coursesGroupMB")
-@Named(value = "coursesGroupMB")
-@SessionScoped
+@Named(value = "departmentMB")
+@ViewScoped
 
 public class CoursesGroupMB implements Serializable {
     private CoursesGroup coursesGroup = new CoursesGroup();
-    private CoursesGroup selectedCoursesGroup = new CoursesGroup();
+    private CoursesGroup selectedCoursesGroup;
     private List<CoursesGroup> coursesGroups;
     private List<CoursesGroup> selectedCoursesGroups;
-
-    @Inject
     CoursesGroupDao coursesGroupDao = new CoursesGroupDao();
+
+    public List<CoursesGroup> getSelectedCoursesGroups() {
+        return selectedCoursesGroups;
+    }
+
+    public void setSelectedCoursesGroups(List<CoursesGroup> selectedCoursesGroups) {
+        this.selectedCoursesGroups = selectedCoursesGroups;
+    }
 
     public void initDataTable() {
         coursesGroups = coursesGroupDao.getAllCoursesGroups();
@@ -60,7 +66,7 @@ public class CoursesGroupMB implements Serializable {
     }
 
     public void openNew() {
-        this.coursesGroup = new CoursesGroup();
+        this.selectedCoursesGroup = new CoursesGroup();
     }
 
     public boolean hasSelectedCoursesGroup() {
@@ -87,39 +93,43 @@ public class CoursesGroupMB implements Serializable {
         }
         this.selectedCoursesGroups = null;
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Courses groups removed"));
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-coursesGroups");
-        PrimeFaces.current().executeScript("PF('dt-coursesGroups').clearFilters()");
+                new FacesMessage("Courses groups removed"));
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-courses");
+        PrimeFaces.current().executeScript("PF('dtCoursesGroups').clearFilters()");
     }
 
     public void saveCoursesGroup() {
+        System.out.println(selectedCoursesGroup.toString());
         if (this.selectedCoursesGroup.getId() == null) {
             coursesGroupDao.add(this.selectedCoursesGroup);
             this.coursesGroups.add(this.selectedCoursesGroup);
-
+            this.selectedCoursesGroup = null;
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Courses group added"));
+                    new FacesMessage("Courses group added"));
 
         } else {
             coursesGroupDao.update(this.selectedCoursesGroup);
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Courses group updated"));
+                    new FacesMessage("Courses group updated"));
         }
         PrimeFaces.current().executeScript("PF('manageCoursesGroupDialog').hide()");
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-coursesGroups");
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-courses");
     }
 
-    public void deleteCoursesGroup() {
-        coursesGroupDao.delete(this.selectedCoursesGroup);
+    public void deleteSelectedCoursesGroup() {
+        System.out.println("Hello");
         this.coursesGroups.remove(this.selectedCoursesGroup);
-        this.selectedCoursesGroups.remove(this.selectedCoursesGroup);
+        this.coursesGroupDao.delete(this.selectedCoursesGroup);
+        // this.selectedCoursesGroups.remove(this.selectedCoursesGroup);
+
         FacesContext.getCurrentInstance().addMessage(null,
-                new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "Courses group removed"));
-        PrimeFaces.current().ajax().update("form:messages", "form:dt-coursesGroups");
+                new FacesMessage("Courses group removed"));
+        PrimeFaces.current().ajax().update("form:messages", "form:dt-courses");
         this.selectedCoursesGroup = null;
+
     }
 
-    public boolean hasnotSelectedDepartments() {
+    public boolean hasnotSelectedCoursesGroups() {
         return !hasSelectedCoursesGroups();
     }
 }

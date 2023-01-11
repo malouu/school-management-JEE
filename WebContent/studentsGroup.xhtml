@@ -12,7 +12,9 @@
       <f:viewAction action="#{studentMB.initDataTable}" />
       <f:viewAction action="#{gradesMB.initDataTable}" />
     </f:metadata>
-    <h:head> </h:head>
+    <h:head>
+      <title>Students</title>
+    </h:head>
     <h:body>
       <h:form>
         <p:menubar style="background-color: tomato">
@@ -332,7 +334,7 @@
                   />
                 </div>
                 <div class="field">
-                  <p:outputLabel for="name">Phone Number</p:outputLabel>
+                  <p:outputLabel for="phone_number">Phone Number</p:outputLabel>
                   <p:inputText
                     id="phone_number"
                     value="#{studentMB.selectedStudent.phone_number}"

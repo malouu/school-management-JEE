@@ -351,7 +351,7 @@ public class GradesMB implements Serializable {
                         "Old: " + oldValue + ", New:" + newValue);
                 FacesContext.getCurrentInstance().addMessage(null, msg);
                 // update the average
-                PrimeFaces.current().executeScript("document.getElementById('form:students:" +
+                PrimeFaces.current().executeScript("document.getElementById('form:dt-students:" +
                         event.getRowIndex() + ":avg').innerHTML = " + studentService.getStudentCourseAverage(student));
 
             }

@@ -11,7 +11,9 @@
     <f:metadata>
       <f:viewAction action="#{coursesGroupMB.initDataTable}" />
     </f:metadata>
-    <h:head> </h:head>
+    <h:head>
+      <title>Courses Groups</title>
+    </h:head>
     <h:body>
       <h:form>
         <p:menubar style="background-color: tomato">
@@ -53,15 +55,16 @@
                   value="New"
                   icon="pi pi-plus"
                   actionListener="#{coursesGroupMB.openNew}"
-                  update=":dialogs:manage-coursesGroup-content"
+                  update=":dialogs:manage-courses-content"
                   oncomplete="PF('manageCoursesGroupDialog').show()"
                   styleClass="ui-button-success"
                   style="margin-right: 0.5rem"
+                  process="@this"
                 >
-                  <p:resetInput target=":dialogs:manage-coursesGroup-content" />
+                  <p:resetInput target=":dialogs:manage-courses-content" />
                 </p:commandButton>
                 <p:commandButton
-                  id="delete-coursesGroups-button"
+                  id="delete-coursesgroups-button"
                   value="#{coursesGroupMB.deleteButtonMessage}"
                   icon="pi pi-trash"
                   actionListener="#{coursesGroupMB.deleteSelectedCoursesGroups}"
@@ -85,7 +88,7 @@
                 >
                   <p:dataExporter
                     type="pdf"
-                    target="dt-coursesGroups"
+                    target="dt-courses"
                     fileName="coursesGroups"
                   />
                 </p:commandButton>
@@ -93,14 +96,14 @@
             </p:toolbar>
 
             <p:dataTable
-              id="dt-coursesGroups"
+              id="dt-courses"
               widgetVar="dtCoursesGroups"
-              var="coursesGroup"
+              var="coursesgroup"
               value="#{coursesGroupMB.coursesGroups}"
               reflow="true"
-              styleClass="coursesGroups-table"
+              styleClass="coursesgroups-table"
               selection="#{coursesGroupMB.selectedCoursesGroups}"
-              rowKey="#{coursesGroup.id}"
+              rowKey="#{coursesgroup.id}"
               paginator="true"
               rows="10"
               rowSelectMode="add"
@@ -108,7 +111,7 @@
               emptyMessage="No courses groups found with the given criteria."
             >
               <f:facet name="header">
-                <div class="departments-table-header">
+                <div class="coursesgroups-table-header">
                   <span style="font-weight: bold">COURSES GROUPS</span>
                   <span
                     class="filter-container ui-input-icon-left flex justify-content-end"
@@ -125,23 +128,23 @@
 
               <p:ajax
                 event="rowSelect"
-                update=":form:delete-coursesGroups-button"
+                update=":form:delete-coursesgroups-button"
               />
               <p:ajax
                 event="rowUnselect"
-                update=":form:delete-coursesGroups-button"
+                update=":form:delete-coursesgroups-button"
               />
               <p:ajax
                 event="rowSelectCheckbox"
-                update=":form:delete-coursesGroups-button"
+                update=":form:delete-coursesgroups-button"
               />
               <p:ajax
                 event="rowUnselectCheckbox"
-                update=":form:delete-coursesGroups-button"
+                update=":form:delete-coursesgroups-button"
               />
               <p:ajax
                 event="toggleSelect"
-                update=":form:delete-coursesGroups-button"
+                update=":form:delete-coursesgroups-button"
               />
 
               <p:column selectionMode="multiple" exportable="false"></p:column>
@@ -149,32 +152,32 @@
               <p:column
                 headerText="Courses Group ID"
                 field="id"
-                sortBy="#{coursesGroup.id}"
-                filterBy="#{coursesGroup.id}"
+                sortBy="#{coursesgroup.id}"
+                filterBy="#{coursesgroup.id}"
                 filterStyle="display: none"
                 filtrable="false"
               >
-                <h:outputText value="#{coursesGroup.id}" />
+                <h:outputText value="#{coursesgroup.id}" />
               </p:column>
               <p:column
                 headerText="Name"
                 field="name"
-                sortBy="#{coursesGroup.name}"
-                filterBy="#{coursesGroup.name}"
+                sortBy="#{coursesgroup.name}"
+                filterBy="#{coursesgroup.name}"
                 filterStyle="display: none"
                 filtrable="false"
               >
-                <h:outputText value="#{coursesGroup.name}" />
+                <h:outputText value="#{coursesgroup.name}" />
               </p:column>
               <p:column
                 headerText="Coef"
                 field="coef"
-                sortBy="#{coursesGroup.coef}"
-                filterBy="#{coursesGroup.coef}"
+                sortBy="#{coursesgroup.coef}"
+                filterBy="#{coursesgroup.coef}"
                 filterStyle="display: none"
                 filtrable="false"
               >
-                <h:outputText value="#{coursesGroup.coef}" />
+                <h:outputText value="#{coursesgroup.coef}" />
               </p:column>
 
               <p:column exportable="false">
@@ -184,20 +187,20 @@
                   styleClass="rounded-button ui-button-primary"
                   process="@this"
                 >
-                  <f:param name="code" value="#{coursesGroup.id}" />
+                  <f:param name="code" value="#{coursesgroup.id}" />
                 </p:button>
                 <p:commandButton
                   icon="pi pi-pencil"
-                  update=":dialogs:manage-coursesGroup-content"
+                  update=":dialogs:manage-courses-content"
                   oncomplete="PF('manageCoursesGroupDialog').show()"
                   styleClass="edit-button rounded-button ui-button-success"
                   process="@this"
                 >
                   <f:setPropertyActionListener
-                    value="#{coursesGroup}"
+                    value="#{coursesgroup}"
                     target="#{coursesGroupMB.selectedCoursesGroup}"
                   />
-                  <p:resetInput target=":dialogs:manage-coursesGroup-content" />
+                  <p:resetInput target=":dialogs:manage-courses-content" />
                 </p:commandButton>
                 <p:commandButton
                   class="ui-button-warning rounded-button"
@@ -206,7 +209,7 @@
                   oncomplete="PF('deleteCoursesGroupDialog').show()"
                 >
                   <f:setPropertyActionListener
-                    value="#{coursesGroup}"
+                    value="#{coursesgroup}"
                     target="#{coursesGroupMB.selectedCoursesGroup}"
                   />
                 </p:commandButton>
@@ -223,7 +226,7 @@
             widgetVar="manageCoursesGroupDialog"
             responsive="true"
           >
-            <p:outputPanel id="manage-coursesGroup-content" class="ui-fluid">
+            <p:outputPanel id="manage-courses-content" class="ui-fluid">
               <p:outputPanel
                 rendered="#{not empty coursesGroupMB.selectedCoursesGroup}"
               >
@@ -251,8 +254,8 @@
                 value="Save"
                 icon="pi pi-check"
                 actionListener="#{coursesGroupMB.saveCoursesGroup}"
-                update="manage-department-content form:dt-coursesGroups form:messages"
-                process="manage-department-content @this"
+                update="manage-courses-content"
+                process="manage-courses-content @this"
               />
               <p:commandButton
                 value="Cancel"
@@ -275,9 +278,9 @@
             <p:commandButton
               value="Yes"
               icon="pi pi-check"
-              actionListener="#{coursesGroupMB.deleteCoursesGroup}"
+              actionListener="#{coursesGroupMB.deleteSelectedCoursesGroup}"
               process="@this"
-              update=":form:delete-coursesGroups-button"
+              update=":form:delete-coursesgroups-button"
               oncomplete="PF('deleteCoursesGroupDialog').hide()"
             />
             <p:commandButton
